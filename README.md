@@ -32,9 +32,13 @@ For better understanding of this study, the following terms are technically and 
 ## **Overall Description** 
 ## *System Architecture*
 
-![alt text](image.png)
+![alt text](![alt text](image-4.png))
 
-The system architecture of the proposed system, showcasing the interaction between various entities. The process begins with the tourist initiating a transaction using their mobile phone. The tourist submits their payment through an integrated payment gateway, which processes the transaction and generates a transaction receipt. This receipt is then sent to both the tourist and the eco police as confirmation. The transaction details are transmitted securely via the internet to the system's database, where the information is stored for future reference. The system also generates two types of reports: barangay reports, which are sent to the barangay admin for monitoring local transactions, and municipal reports, which are delivered to the municipal admin for higher-level data analysis. Both the barangay and municipal admins have secure access to their respective reports, allowing them to manage data efficiently and support informed decision-making. This structured architecture ensures that transactions are seamless, secure, and properly documented for better management and oversight.
+The system architecture of the proposed system, showcasing the interaction between various entities. The process starts when the tourist uses a mobile phone to make a payment through a payment gateway. After the payment is processed, a transaction receipt is created and sent to both the tourist and the eco police as proof of the transaction.
+The system then sends all transaction details over the internet and stores them in the database. These stored details can be used later for checking records or generating reports.
+The barangay admin and municipal admin can both access the system using a PC. The barangay admin manages Barangay Admin Accounts and receives a Barangay Report that shows local transaction data. Meanwhile, the municipal admin receives a Municipal Report that gives a bigger overview of all transactions across areas.
+Tourists can also use the Map API to view locations and services. They can leave ratings based on their experience, and these ratings are also saved in the database for future use.
+This setup makes sure that all payments are tracked, receipts are properly given, and both barangay and municipal admins can access the information they need for better planning and decision-making.
 
 ## Software and Tools Used
 
@@ -49,7 +53,30 @@ The system architecture of the proposed system, showcasing the interaction betwe
 
 ## *Use Case*
 
-![alt text](<img width="847" height="995" alt="image" src="https://github.com/user-attachments/assets/fb93650c-ec2c-4582-9aed-91e71d20584f" />
-)
+![alt text](![alt text](image-1.png))
+
 The use case diagram for the proposed system. It represents the interaction between users and system, the actors are the Tourist, Eco Police, Barangay Admin and Municipal Admin. The diagram outlines the interactions between different users and system functionalities. The tourist can perform actions such as locating resorts, rate beach resorts and municipal essential services for guidance and paying the ecological fee through the system. The eco police have several responsibilities, including charging the ecological fee, validating transaction receipts, and managing eco policies to ensure proper environmental regulations are followed. The barangay admin manages barangay reports to track tourist transactions and ecological fee data while also being required to log in for secure access. Similarly, the municipal admin handles municipal reports for large-scale data analysis and must also log in to access relevant data securely. Both the barangay admin and municipal admin have the responsibility to manage eco policies to maintain proper enforcement at their respective levels. This use case diagram emphasizes the structured flow of tasks, ensuring efficient tourist assistance, ecological fee management, and accurate reporting for both barangay and municipal authorities.
+
+## *Context Diagram*
+
+![alt text](![alt text](image-2.png))
+
+The context diagram of the system called "TourEase: Tourist Assistance with QR-Based System." This diagram shows how different users and external systems interact with TourEase by sending and receiving information.
+In the system, tourists can view their current location and destination using the Map API. They can also pay ecological fees, receive digital receipts, and get information about places they want to visit.
+The Eco Police provides their personal details to the system and submits transaction records from tourists. This helps them monitor and validate fee payments more easily.
+The Barangay Admin shares their credentials and personal details with the system. In return, they receive reports related to tourist activities in their area. This helps them manage local tourism more efficiently.
+The Municipal Admin also inputs their personal data and credentials. The system sends them reports that give a bigger picture of what's happening across the entire municipality.
+The Map API connects with the system to give updated locations of tourists and tourist spots. This makes it easier for users to explore Calatagan safely and with accurate directions.
+
+## *Data Flow Diagram*
+
+![alt text](![alt text](![alt text](image-3.png)))
+
+The main users of the system are the Municipal Admin, Barangay Admin, Eco Police, Tourist, and MAP API.
+The process starts with Manage Accounts, where the Municipal Admin, Barangay Admin, and Eco Police enter their credentials and personal information. This information is stored in the Accounts (D1) database for future use.
+Next, the Generate Transaction Receipt process happens when the Eco Police submits transaction details, and the Tourist provides payment. After this, the system creates a receipt and saves the transaction in the Transactions (D2) database.
+The Validate Receipt step allows the system to check if the receipt shown by the Tourist is valid and matches the saved transaction. If everything is correct, the Tourist can continue with their activities.
+The View Location process helps the Tourist see their current location and other places using the MAP API. This makes it easier for tourists to move around and find destinations.
+Finally, the Generate Reports process creates reports based on the saved transaction data. These reports are sent to both the Municipal Admin and Barangay Admin so they can monitor activities and keep track of records.
+
 
