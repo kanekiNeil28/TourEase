@@ -38,15 +38,18 @@ The system architecture of the proposed system, showcasing the interaction betwe
 
 ## Software and Tools Used
 
-| Software         | Description                                | Specification         |
+| Software         | Description                                | Specification          |
 |------------------|--------------------------------------------|------------------------|
-| Visual Studio Code | IDE for development and testing           | Windows 10             |
+| Visual Studio Code | IDE for development and testing          | Windows 10             |
 | XAMPP            | Local web server for PHP and database      | Apache + MySQL         |
 | ReactJS/Native   | Framework for building user interfaces     | Latest Version         |
 | HTML             | Markup language for web content            | Standard Version       |
 | JavaScript       | Scripting language for dynamic features    | Standard Version       |
 | PHP              | Server-side scripting language             | Latest Version         |
 
+## *Use Case*
 
-
+![alt text](<img width="847" height="995" alt="image" src="https://github.com/user-attachments/assets/fb93650c-ec2c-4582-9aed-91e71d20584f" />
+)
+The use case diagram for the proposed system. It represents the interaction between users and system, the actors are the Tourist, Eco Police, Barangay Admin and Municipal Admin. The diagram outlines the interactions between different users and system functionalities. The tourist can perform actions such as locating resorts, rate beach resorts and municipal essential services for guidance and paying the ecological fee through the system. The eco police have several responsibilities, including charging the ecological fee, validating transaction receipts, and managing eco policies to ensure proper environmental regulations are followed. The barangay admin manages barangay reports to track tourist transactions and ecological fee data while also being required to log in for secure access. Similarly, the municipal admin handles municipal reports for large-scale data analysis and must also log in to access relevant data securely. Both the barangay admin and municipal admin have the responsibility to manage eco policies to maintain proper enforcement at their respective levels. This use case diagram emphasizes the structured flow of tasks, ensuring efficient tourist assistance, ecological fee management, and accurate reporting for both barangay and municipal authorities.
 
