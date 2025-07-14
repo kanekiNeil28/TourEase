@@ -29,5 +29,24 @@ For better understanding of this study, the following terms are technically and 
 - **Tourist.** - A person who visits different places for fun, travel and relax.
 - **Tourist Assistance System.** - A digital platform designed to help tourists navigate and access relevant information.
 
+## **Overall Description** 
+## *System Architecture*
+
+![alt text](image.png)
+
+The system architecture of the proposed system, showcasing the interaction between various entities. The process begins with the tourist initiating a transaction using their mobile phone. The tourist submits their payment through an integrated payment gateway, which processes the transaction and generates a transaction receipt. This receipt is then sent to both the tourist and the eco police as confirmation. The transaction details are transmitted securely via the internet to the system's database, where the information is stored for future reference. The system also generates two types of reports: barangay reports, which are sent to the barangay admin for monitoring local transactions, and municipal reports, which are delivered to the municipal admin for higher-level data analysis. Both the barangay and municipal admins have secure access to their respective reports, allowing them to manage data efficiently and support informed decision-making. This structured architecture ensures that transactions are seamless, secure, and properly documented for better management and oversight.
+
+## Software and Tools Used
+
+| Software         | Description                                | Specification         |
+|------------------|--------------------------------------------|------------------------|
+| Visual Studio Code | IDE for development and testing           | Windows 10             |
+| XAMPP            | Local web server for PHP and database      | Apache + MySQL         |
+| ReactJS/Native   | Framework for building user interfaces     | Latest Version         |
+| HTML             | Markup language for web content            | Standard Version       |
+| JavaScript       | Scripting language for dynamic features    | Standard Version       |
+| PHP              | Server-side scripting language             | Latest Version         |
+
+
 
 
