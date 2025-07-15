@@ -79,4 +79,14 @@ The Validate Receipt step allows the system to check if the receipt shown by the
 The View Location process helps the Tourist see their current location and other places using the MAP API. This makes it easier for tourists to move around and find destinations.
 Finally, the Generate Reports process creates reports based on the saved transaction data. These reports are sent to both the Municipal Admin and Barangay Admin so they can monitor activities and keep track of records.
 
+## *Entity-Relationship Diagram*
 
+![alt text](![alt text](![alt text](image-5.png)))
+
+The proposed system's database structure, showing how different entities are connected. The Accounts table stores information about users, such as their name, username, email, password, and role like eco police. It is also connected to the Barangay table, which stores the name of each barangay.
+The Destination table contains details about the tourist spots in Calatagan. This includes the name, description, image, and the exact location using latitude and longitude. Each destination can also have many images, which are saved in the Destination_Image table.
+The Transaction table keeps track of tourist visits. It stores details like the guest name, how many guests are discounted or not, total fee, date of visit, and if the guest is a foreigner or made a booking. It is connected to both the Accounts and Destination tables.
+Tourists can also give feedback through the Destination_Ratings table. This saves the rating (from 1 to 5) they give for each destination.
+The system also includes information about Activities that tourists can do, like island hopping or snorkeling. These are stored in the Activities table, and linked to each destination through the Activities_Destination table.
+The Amenities table lists features or services that a destination can offer, like Wi-Fi, beachfront, or parking. The Amenities_Destination table connects these amenities to specific destinations.
+Lastly, the News table stores news or announcements. This includes the title, headline, body, image, and date. This helps inform users about updates, promos, or events in the area.
