@@ -7,13 +7,13 @@
 
 ## *Introduction*
 
-This study focuses on developing a web and mobile application aimed at improving the tourism experience in Calatagan, Batangas. The system is intended for use by tourists and tourism authorities, aiming to enhance convenience, improve navigation, and streamline ecological fee payments. The system features four types of user accounts: tourist, eco police, barangay administrators, and municipal administrators. Tourists can search for resorts, view travel guidelines,map navigation, view recommendation of popular resorts,ratings and make ecological fee payments, while eco police are responsible for monitoring and enforcing compliance with tourism and environmental regulations. Barangay administrators oversee local tourism activities and ensure accurate information is provided, while municipal administrators manage the system at a higher level, ensuring efficient coordination between stakeholders and overseeing tourism operations.
+## **Purpose**
 
-To enhance the user experience, TourEase integrates several key features that contribute to a more efficient and informed travel experience. The Resort Locator allows tourists to find registered resorts and view important information such as location, amenities, and user reviews. The Interactive Map and Navigation provides real-time directions to major destinations, improving accessibility. The Emergency Assistance feature connects users with local responders, increasing safety during emergencies. Finally, the Ecological Fee Collection module allows for online payment and QR code verification which simplifies the fee monitoring process for tourism staff. The User Ratings feature allows tourists to leave reviews and rate resorts and attractions based on their experiences. This helps future travelers make informed decisions about where to stay or visit, ensuring transparency and reliability in the tourism industry. The Route & Transport Guide provides detailed directions to various destinations within Calatagan, including resorts, clinics, markets, and other municipal essential services.
+The purpose of this study is to develop **TourEase: A Tourist Assistance System with QR Code in Calatagan, Batangas**. The main goal is to make the travel experience of tourists easier and more convenient. The system will help solve problems like the lack of organized information about tourist spots, difficulty in navigation, and the manual way of paying ecological fees. The system solves problems such as long lines for payments, lack of clear information, and difficulty in monitoring payments. TourEase also helps tourists find resorts, view guides, and get emergency assistance, making their visit to Calatagan more convenient. The study also aims to identify the issues faced by tourists and staff and evaluate the system’s usability and overall satisfaction.
 
-The system also offers a Filtering Option on Amenities, enabling users to customize their searches based on their preferences. Tourists can filter resorts and accommodations based on specific criteria such as Wi-Fi availability, parking spaces, pet-friendly policies, swimming pools, beachfront access, and more. This feature ensures that visitors can easily find establishments that meet their needs and preferences. 
+## **Scope**
 
-To further enhance navigation and accessibility, TourEase incorporates an Interactive Map & Navigation system. This feature allows users to view real-time locations of resorts, attractions, transport hubs, and emergency facilities, making it easier for tourists to plan their movements efficiently. The map provides step-by-step navigation, ensuring that travelers can explore Calatagan with ease.
+This study focuses on creating a web and mobile application for tourists visiting Calatagan. The system is intended for tourists and local tourism staff, including eco police, barangay administrators, and municipal administrators. Each user will have different roles in the system. For example, tourists can locate resorts, view travel guides, and pay ecological fees, while tourism staff can monitor transactions and generate reports. The system includes features like a resort locator, an interactive map for directions, emergency assistance, ecological fee collection, and a rating feature for tourists to review resorts. It also has a filter option to help tourists search for resorts with specific amenities such as Wi-Fi or beachfront access. However, the system is only designed for Calatagan and requires an internet connection to work. It supports only English and Tagalog, so foreign tourists may face language limitations.
 
 ## **Definition of Terms**
 For better understanding of this study, the following terms are technically and operationally defined:
@@ -30,6 +30,7 @@ For better understanding of this study, the following terms are technically and 
 - **Tourist Assistance System.** - A digital platform designed to help tourists navigate and access relevant information.
 
 ## **Overall Description** 
+
 ## *System Architecture*
 
 ![alt text](![alt text](image-4.png))
@@ -90,3 +91,33 @@ Tourists can also give feedback through the Destination_Ratings table. This save
 The system also includes information about Activities that tourists can do, like island hopping or snorkeling. These are stored in the Activities table, and linked to each destination through the Activities_Destination table.
 The Amenities table lists features or services that a destination can offer, like Wi-Fi, beachfront, or parking. The Amenities_Destination table connects these amenities to specific destinations.
 Lastly, the News table stores news or announcements. This includes the title, headline, body, image, and date. This helps inform users about updates, promos, or events in the area.
+
+## *Constraits*
+
+• The system requires an active internet connection, so it may not work well in areas with weak signals.
+
+• It supports only English and Tagalog for now, limiting use by non-local or foreign tourists.
+
+• Depends on regular updates from tourism authorities and resort owners to maintain accurate data.
+
+• Limited user training: some users unfamiliar with QR-based systems may need guidance.
+
+## *Limitations*
+
+• The system is designed specifically for Calatagan, Batangas, so it’s not ready for other locations unless modified.
+
+• No personalized AI-based recommendations; only basic suggestions and popular destinations.
+
+• Offline mode and multi-language support are not yet implemented.
+
+• Accuracy of maps and guides depends on integration with Maps API and local data.
+
+## *Dependencies*
+
+- **External Services:** - Maps API for navigation
+
+- **Tourism Authorities:** -  For updated information on resorts, fees, and emergency contacts.
+
+- **Device Requirements:** - Smartphones with camera for QR scanning, internet-enabled.
+
+
