@@ -1,4 +1,4 @@
-# TOUREASE: TOURIST ASSISTANCE WITH QR BASED SYSTEM IN CALATAGAN, BATANGAS
+<img width="989" height="559" alt="image" src="https://github.com/user-attachments/assets/fb2a0685-8e0d-4815-8ddf-f2a51e6a6931" /># TOUREASE: TOURIST ASSISTANCE WITH QR BASED SYSTEM IN CALATAGAN, BATANGAS
 
 ## Authors
 - *Susie Sam Atie Benson*
@@ -32,7 +32,8 @@ For better understanding of this study, the following terms are technically and 
 ## **Overall Description** 
 ## *System Architecture*
 
-![alt text](![alt text](image-4.png))
+<img width="989" height="559" alt="image" src="https://github.com/user-attachments/assets/ffff5b45-5be1-430c-9543-73ebaefc5b79" />
+
 
 The system architecture of the proposed system, showcasing the interaction between various entities. The process starts when the tourist uses a mobile phone to make a payment through a payment gateway. After the payment is processed, a transaction receipt is created and sent to both the tourist and the eco police as proof of the transaction.
 The system then sends all transaction details over the internet and stores them in the database. These stored details can be used later for checking records or generating reports.
@@ -53,13 +54,15 @@ This setup makes sure that all payments are tracked, receipts are properly given
 
 ## *Use Case*
 
-![alt text](![alt text](image-1.png))
+<img width="847" height="995" alt="image" src="https://github.com/user-attachments/assets/0d092009-11a8-46c0-b422-36af6e1b3bc2" />
+
 
 The use case diagram for the proposed system. It represents the interaction between users and system, the actors are the Tourist, Eco Police, Barangay Admin and Municipal Admin. The diagram outlines the interactions between different users and system functionalities. The tourist can perform actions such as locating resorts, rate beach resorts and municipal essential services for guidance and paying the ecological fee through the system. The eco police have several responsibilities, including charging the ecological fee, validating transaction receipts, and managing eco policies to ensure proper environmental regulations are followed. The barangay admin manages barangay reports to track tourist transactions and ecological fee data while also being required to log in for secure access. Similarly, the municipal admin handles municipal reports for large-scale data analysis and must also log in to access relevant data securely. Both the barangay admin and municipal admin have the responsibility to manage eco policies to maintain proper enforcement at their respective levels. This use case diagram emphasizes the structured flow of tasks, ensuring efficient tourist assistance, ecological fee management, and accurate reporting for both barangay and municipal authorities.
 
 ## *Context Diagram*
 
-![alt text](![alt text](image-2.png))
+<img width="973" height="606" alt="image" src="https://github.com/user-attachments/assets/51704e55-5945-4df9-a6bd-16277c447066" />
+
 
 The context diagram of the system called "TourEase: Tourist Assistance with QR-Based System." This diagram shows how different users and external systems interact with TourEase by sending and receiving information.
 In the system, tourists can view their current location and destination using the Map API. They can also pay ecological fees, receive digital receipts, and get information about places they want to visit.
@@ -70,7 +73,8 @@ The Map API connects with the system to give updated locations of tourists and t
 
 ## *Data Flow Diagram*
 
-![alt text](![alt text](![alt text](image-3.png)))
+<img width="985" height="622" alt="image" src="https://github.com/user-attachments/assets/f8935d23-4268-4724-8b6c-4283d7753d8e" />
+
 
 The main users of the system are the Municipal Admin, Barangay Admin, Eco Police, Tourist, and MAP API.
 The process starts with Manage Accounts, where the Municipal Admin, Barangay Admin, and Eco Police enter their credentials and personal information. This information is stored in the Accounts (D1) database for future use.
@@ -81,7 +85,8 @@ Finally, the Generate Reports process creates reports based on the saved transac
 
 ## *Entity-Relationship Diagram*
 
-![alt text](![alt text](![alt text](image-5.png)))
+<img width="976" height="685" alt="image" src="https://github.com/user-attachments/assets/9616df70-5ae1-47d0-90b0-0d6678ada2ed" />
+
 
 The proposed system's database structure, showing how different entities are connected. The Accounts table stores information about users, such as their name, username, email, password, and role like eco police. It is also connected to the Barangay table, which stores the name of each barangay.
 The Destination table contains details about the tourist spots in Calatagan. This includes the name, description, image, and the exact location using latitude and longitude. Each destination can also have many images, which are saved in the Destination_Image table.
