@@ -1,4 +1,4 @@
-<img width="989" height="559" alt="image" src="https://github.com/user-attachments/assets/fb2a0685-8e0d-4815-8ddf-f2a51e6a6931" /># TOUREASE: TOURIST ASSISTANCE WITH QR BASED SYSTEM IN CALATAGAN, BATANGAS
+# TOUREASE: TOURIST ASSISTANCE WITH QR BASED SYSTEM IN CALATAGAN, BATANGAS
 
 ## Authors
 - *Susie Sam Atie Benson*
