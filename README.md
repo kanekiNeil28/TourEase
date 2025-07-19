@@ -129,11 +129,33 @@ Lastly, the News table stores news or announcements. This includes the title, he
 
 ## *System Features*
 
-- **Interactive Map and Navigation**  - Uses Map Api to guide tourist in real-time to attractions and services.
-- **Resort Locator**  - Allows users to browse/search resorts in Calatagan with filters of amenities (e.g., beachfront, Wi-Fi, pool).
-- **QR Code Geneation**  - For receipt validation of Ecological fees.
-- **Rating System**  - Tourists can rate resorts (1–5 stars), helping future visitors.
-- **Admin Reporting**  – Barangay and Municipal admins monitor tourist data, reports, and fees collected.
+**Resort Locator**
+
+    Allows users to browse/search resorts in Calatagan with filters of amenities (e.g., beachfront, Wi-Fi, pool).
+
+![alt text](<resort locator.png>)
+
+**QR Code Generation**
+
+    For receipt validation of Ecological fees.
+
+![alt text](<Qr Code.jpg>)
+
+**Interactive Map and Navigation**
+
+    Uses Map Api to guide tourist in real-time to attractions and services.
+
+![alt text](map.png)
+
+**Admin Reporting** 
+
+    Barangay and Municipal admins monitor tourist data, reports, and fees collected.
+
+![alt text](Dashboard.png)
+
+**Rating System**
+
+    Tourists can rate resorts (1–5 stars), helping future visitors.
 
 
 ## *Interface Requirements*
