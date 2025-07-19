@@ -133,7 +133,9 @@ Lastly, the News table stores news or announcements. This includes the title, he
 
     Allows users to browse/search resorts in Calatagan with filters of amenities (e.g., beachfront, Wi-Fi, pool).
 
-![alt text](<resort locator.png>)
+![alt text](<reso![Qr Code](https://github.com/user-attachments/assets/4718d4f5-1ce0-4125-9a39-7547dfd8758e)
+<img width="843" height="386" alt="resort locator" src="https://github.com/user-attachments/assets/f0cd511a-c626-4a24-859e-2865808189b0" />
+rt locator.png>)
 
 **QR Code Generation**
 
