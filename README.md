@@ -125,4 +125,56 @@ Lastly, the News table stores news or announcements. This includes the title, he
 
 - **Device Requirements:** - Smartphones with camera for QR scanning, internet-enabled.
 
+## **Specific Requirements** 
+
+## *System Features*
+
+- **Interactive Map and Navigation**  - Uses Map Api to guide tourist in real-time to attractions and services.
+- **Resort Locator**  - Allows users to browse/search resorts in Calatagan with filters of amenities (e.g., beachfront, Wi-Fi, pool).
+- **QR Code Geneation**  - For receipt validation of Ecological fees.
+- **Rating System**  - Tourists can rate resorts (1–5 stars), helping future visitors.
+- **Admin Reporting**  – Barangay and Municipal admins monitor tourist data, reports, and fees collected.
+
+
+## *Interface Requirements*
+
+- Mobile-Friendly Interface (for Eco Police )
+- Admin Web Interface (for Barangay and Municipal Admin)
+- Tourist Web Interface (for Tourist)
+- Map Integration UI
+- Form Inputs (Basic forms for login, payment information, and transaction information.)
+
+
+## *Non-Functional Requirements*
+
+**Usability**
+- Mobile and web interfaces must be user-friendly and easy to use including for the elderly or first-time visitors.
+
+**Performance** 
+- System should load resort information, maps on a stable internet connection.
+- Mobile app must work smoothly on Android devices.
+
+**Reliability**
+- Admin dashboard should provide real-time reporting
+- System should operate 24/7 especially during peak seasons (e.g., summer, holidays).
+
+**Security**
+- Passwords must be securely stored using hashing
+- Role-based access control must be enforced:
+    - Tourists access only front-end features (Ratings, Map Navigation, Resort Locator)
+    - Eco police access transaction validation and transaction history.
+    - Barangay and municipal admins access full reporting tools.
+
+## *Other Requirements*
+
+**Hardware Needed**
+- Android Phone  - Use for testing the mobile app to ensure it works properly on devices commonly used by tourists
+- Laptop/ PC  - Used for developing the system, coding, database management, and documentation.
+
+**User Roles** 
+- Tourist
+- Eco Police
+- Barangay Admin
+- Municipal Admin
+
 
