@@ -133,25 +133,24 @@ Lastly, the News table stores news or announcements. This includes the title, he
 
     Allows users to browse/search resorts in Calatagan with filters of amenities (e.g., beachfront, Wi-Fi, pool).
 <img width="843" height="386" alt="resort locator" src="https://github.com/user-attachments/assets/f0cd511a-c626-4a24-859e-2865808189b0" />
-rt locator.png>)
 
 **QR Code Generation**
 
     For receipt validation of Ecological fees.
 
-![alt text](<Qr Code.jpg>)
+![Qr Code](https://github.com/user-attachments/assets/a8f6620d-6dda-4665-ab55-6e6939f652f2)
 
 **Interactive Map and Navigation**
 
     Uses Map Api to guide tourist in real-time to attractions and services.
 
-![alt text](map.png)
+<img width="526" height="366" alt="map" src="https://github.com/user-attachments/assets/922eec3b-5fe3-40f9-a380-81988e949da3" />
 
 **Admin Reporting** 
 
     Barangay and Municipal admins monitor tourist data, reports, and fees collected.
 
-![alt text](Dashboard.png)
+<img width="843" height="384" alt="Dashboard" src="https://github.com/user-attachments/assets/68d27dfb-e165-4663-b2bb-407c37b6d364" />
 
 **Rating System**
 
