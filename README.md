@@ -23,6 +23,8 @@ For better understanding of this study, the following terms are technically and 
 - **Map.** - A visual representation used in the system to guide tourists to locations such as tourist spots, important landmarks, and municipal services.
 - **Navigation.** - A feature in the system that helps tourists find their way by showing directions and guiding them to their desired destinations.
 - **QR Code.** - A scannable code used to access digital content instantly.
+- **Ratings.** A feedback mechanism in the system where tourists can evaluate resorts or tourist services based on their experiences using a scale 1 to 5 stars.
+- **Resort Locator.**  A feature that helps tourists to locate accommodations with detailed information.
 - **Smart Tourism.** - The integration of digital technology to enhance travel experiences and tourism management.
 - **Software Usability Scale.** - A tool used to measure the ease of use and user satisfaction of a software system.
 - **Stakeholders.** - The individual who use the system it includes tourist, eco police, barangay admin and municipality admin that will be the key stakeholders.
