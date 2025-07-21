@@ -137,6 +137,10 @@ Lastly, the News table stores news or announcements. This includes the title, he
 <img width="843" height="386" alt="resort locator" src="https://github.com/user-attachments/assets/f0cd511a-c626-4a24-859e-2865808189b0" />
 
 
+<img width="843" height="382" alt="filter" src="https://github.com/user-attachments/assets/2be2a3f7-ddf2-440c-bfb5-8781cbddb139" />
+
+
+
 **QR Code Generation**
 
     For receipt validation of Ecological fees.
@@ -161,6 +165,8 @@ Lastly, the News table stores news or announcements. This includes the title, he
 **Rating System**
 
     Tourists can rate resorts (1–5 stars), helping future visitors.
+
+<img width="843" height="382" alt="ratings" src="https://github.com/user-attachments/assets/f0a9da63-8863-4d28-90d0-ea8e8b53a4e6" />
 
 
 ## *Interface Requirements*
