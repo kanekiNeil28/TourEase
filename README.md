@@ -145,7 +145,7 @@ Lastly, the News table stores news or announcements. This includes the title, he
 
     For receipt validation of Ecological fees.
 
-![Qr Code](https://github.com/user-attachments/assets/a8f6620d-6dda-4665-ab55-6e6939f652f2)
+![521767640_1047824757505644_9119965620249226972_n](https://github.com/user-attachments/assets/6fc14220-d149-4636-8c3b-ed9f18f9f6b4)
 
 
 **Interactive Map and Navigation**
