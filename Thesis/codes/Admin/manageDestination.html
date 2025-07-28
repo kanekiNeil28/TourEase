@@ -1,0 +1,1678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Manage Destinations | TourEase</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      display: flex;
+      background-color: #f3f6fd;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+.sidebar {
+  width: 265px;
+  background-color: white;
+  padding: 20px 10px 0 10px;
+  border-right: 1px solid #ddd;
+  transition: width 0.3s ease;
+  position: relative;
+}
+
+.sidebar.minimized {
+  width: 70px;
+}
+
+.sidebar ul li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #333;
+  transition: background-color 0.2s ease;
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.sidebar ul li a {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  text-decoration: none;
+  color: inherit;
+}
+
+.sidebar ul li:hover {
+  background-color: #e5f5f0;
+}
+
+.sidebar .material-icons {
+  font-size: 20px;
+  color: #34a77f;
+  min-width: 24px;
+}
+
+.sidebar.minimized .material-icons {
+  margin: 0 auto;
+}
+
+.link-text {
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  white-space: nowrap;
+  opacity: 1;
+  visibility: visible;
+}
+
+.sidebar.minimized .link-text {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.sidebar.minimized ul li:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: 70px;
+  background: #333;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  white-space: nowrap;
+  font-size: 12px;
+  z-index: 999;
+}
+
+.toggle-btn {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  width: 30px;
+  height: 30px;
+  background: #aacee5;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 3;
+}
+
+.main-content {
+  margin-left: 0px;
+  transition: margin-left 0.3s ease;
+  flex: 1;
+  overflow-y: auto;
+  height: 100vh;
+}
+
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 20px;
+  padding-left: 10px;
+  transition: all 0.3s ease;
+  margin-top: 30px;
+}
+
+.logo-img {
+  height: 38px;
+  transition: all 0.3s ease;
+}
+
+.logo-text {
+  font-size: 20px;
+  font-weight: 600;
+  color: #34a77f;
+  margin-left: 10px;
+  white-space: nowrap;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.sidebar.minimized .logo-text {
+  opacity: 0;
+  visibility: hidden;
+  width: 0;
+  margin: 0;
+}
+
+.sidebar.minimized .sidebar-logo {
+  justify-content: center;
+  padding-left: 0;
+}
+
+.sidebar-title {
+  font-size: 22px;
+  margin-bottom: 20px;
+  text-align: left;
+  transition: opacity 0.3s ease, height 0.3s ease;
+}
+
+.sidebar.minimized .sidebar-title {
+  opacity: 0;
+  height: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+
+.header {
+  background-color: #12d494;
+  color: #fff;
+  padding: 20px;
+  text-align: right;
+  font-size: 16px;
+  transition: opacity 0.3s ease, height 0.3s ease;
+}
+
+.main-content.minimized .header {
+  opacity: 0;
+  height: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+    
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        overflow-y: auto;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+
+    .modal-content {
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 20px 25px;
+        max-width: 800px;
+        margin: auto;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        background-color: white;
+        border-radius: 8px;
+        width: 90%;
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
+        animation: modalFadeIn 0.3s ease-out;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+
+    .modalimages-content {
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 20px 25px;
+        max-width: 800px;
+        margin-left: 300px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        background-color: white;
+        border-radius: 8px;
+        width: 90%;
+        top:50%;
+        position: absolute;
+        transform: translateY(-50%);
+        animation: modalFadeIn 0.3s ease-out;
+    }
+
+.activities-checkbox-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 12px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fafafa;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.custom-activity-input-group {
+  display: flex;
+  gap: 10px;
+}
+
+   .modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 15px;
+}
+
+   .modal-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+    .close-btn {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: #777;
+        transition: color 0.2s;
+    }
+
+    .close-btn:hover {
+        color: #333;
+    }
+
+    @keyframes modalFadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-60%);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(-50%);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .modal-content {
+            width: 95%;
+            padding: 15px;
+        }
+        
+        .modal-title {
+            font-size: 1.3rem;
+        }
+    }
+    
+.amenities-checkbox-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 12px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fafafa;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.custom-amenity-input-group {
+  display: flex;
+  gap: 10px;
+}
+
+.form-control {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.btn {
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.3s ease;
+  font-size: 1rem;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: white;
+  border: none;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: white;
+  border: none;
+}
+
+.btn:hover {
+  opacity: 0.9;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 25px;
+}
+
+
+
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: #555;
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    
+    textarea.form-control {
+      min-height: 100px;
+      resize: vertical;
+    }
+    
+    .form-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    
+    .image-preview {
+      width: 100%;
+      height: 200px;
+      background-color: #f5f5f5;
+      border-radius: 5px;
+      margin-top: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+    
+    .image-preview img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: cover;
+    }
+    
+    .coordinates-group {
+      display: flex;
+      gap: 15px;
+    }
+    
+    .coordinates-group .form-group {
+      flex: 1;
+    }
+    
+
+.modal-content.activity-modal-content {
+  background: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  max-width: 800px;
+  margin: auto;
+  top: 40%;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+
+
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown .dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 90px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  z-index: 1;
+  border-radius: 6px;
+  overflow: hidden;
+  right: 10;
+}
+
+
+
+.dropdown-content a {
+  padding: 10px 14px;
+  display: block;
+  text-decoration: none;
+  color: #333;
+  background-color: #f9f9f9;
+}
+
+.dropdown-content a:hover {
+  background-color: #eee;
+}
+
+    
+    @media (max-width: 768px) {
+      .action-buttons {
+        flex-direction: column;
+        gap: 10px;
+      }
+      
+      .btn-group {
+        justify-content: flex-end;
+      }
+      
+      table {
+        display: block;
+        overflow-x: auto;
+      }
+      
+      .coordinates-group {
+        flex-direction: column;
+        gap: 0;
+      }
+      
+      .dropdown-content {
+        right: 0;
+      }
+    }
+
+  
+
+    .cards-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-left: 10px;
+    
+    }
+
+   .content-container {
+      background-color: #f8f9fc;
+      border-radius: 10px;
+      padding: 20px;
+    }
+ 
+  
+.card-image img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+
+.card-body {
+  padding: 15px 20px;
+}
+
+
+.card-title-row h3 {
+  font-size: 18px;
+  font-weight: 800;
+  margin-bottom: 20px;
+  font-family: 'Playfair Display', serif;
+  text-align: left;
+  
+}
+
+
+.destination-card {
+  width: 250px;
+  height: 350px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  overflow: hidden;
+  margin: 20px;
+  transition: transform 0.3s;
+  position: relative;
+}
+
+.destination-card:hover {
+  transform: scale(1.02);
+}
+
+.card-image img {
+  width: 100%;
+  height: 230px;
+  object-fit: cover;
+  display: block;
+}
+
+.card-body {
+  padding: 15px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.card-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-title-row h3 {
+  font-size: 18px;
+  margin: 0;
+  color: #333;
+  flex: 1;
+}
+
+.card-actions-fixed {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+} 
+
+.card-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.icon-button {
+  margin-top: 70px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  width: 28px;
+  height: 28px;
+}
+
+.icon-button img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.card-description {
+    margin: 12px 0;
+    font-size: 14px;
+    color: #4b5563;
+}
+
+.card-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.btn-secondary {
+    background-color: #3b82f6;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+}
+
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  bottom: 35px;
+  right: 0;
+  background-color: #fff;
+  min-width: 130px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+  border-radius: 6px;
+  overflow: hidden;
+  z-index: 5;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content a {
+    color: #0a0a0a;
+    padding: 10px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #9de4e0;
+}
+
+
+
+.search-bar-section {
+  position: absolute; 
+  top: 50px; 
+  right: 50px; 
+  z-index: 2; 
+  width: 300px; 
+  max-width: 90%; 
+}
+
+.search-bar-container {
+  
+  display: flex; 
+  align-items: center; 
+  background-color: #ffffff; 
+  border-radius: 25px; 
+  padding: 8px 20px; 
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
+  transition: all 0.3s ease-in-out; 
+  width: 100%; 
+}
+
+.search-bar-container:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15); 
+}
+
+.search-input {
+  border: none; 
+  outline: none; 
+  flex-grow: 1; 
+  padding: 5px 0;
+  font-size: 1rem;
+  color: #333; 
+  background-color: transparent; 
+}
+.search-button {
+  background: none; 
+  border: none; 
+  cursor: pointer; 
+  padding: 5px; 
+  color: #12d494; 
+  display: flex; 
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%; 
+  transition: background-color 0.2s ease, color 0.2s ease; 
+}
+
+.search-button:hover {
+  background-color: #e0f7fa; 
+  color: #00796b; 
+}
+
+.search-button .material-icons {
+  font-size: 22px; 
+}
+
+.search-results-dropdown {
+  list-style: none; 
+  padding: 0;
+  margin: 5px 0 0 0; 
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  max-height: 200px; 
+  overflow-y: auto;
+  position: absolute; 
+  width: 100%; 
+  left: 0; 
+  top: calc(100% + 5px); 
+  display: none; 
+  z-index: 10; 
+}
+
+.search-result-item, .no-results {
+  padding: 10px 15px;
+  cursor: pointer;
+  color: #333;
+  font-size: 0.95rem;
+}
+
+.search-result-item:hover {
+  background-color: #f0f0f0;
+}
+
+.no-results {
+  font-style: italic;
+  color: #666;
+  text-align: center;
+}
+
+
+.action-buttons {
+  display: flex; 
+  justify-content: flex-end; 
+  margin-bottom: 20px; 
+  margin-top: 20px; 
+}
+
+.addbutton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  background-color: #1dd3b0;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 30px;
+
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.addbutton:hover {
+  background-color: #17b59a;
+}
+
+.addbutton i {
+  font-size: 16px;
+}
+
+
+
+
+  </style>
+</head>
+<body>
+
+  <div class="sidebar" id="sidebar">
+    <button class="toggle-btn material-icons" onclick="toggleSidebar()">menu</button>
+   <div class="sidebar-logo">
+  <img src="../image/logo.png" alt="Logo" class="logo-img" />
+  <span class="logo-text">TourEase</span>
+</div>
+
+      <ul>
+    <li data-tooltip="Dashboard"><a href="municipalAdmin.html"><span class="material-icons">dashboard</span><span class="link-text">Dashboard</span></a></li>
+    <li data-tooltip="Manage Barangay Admins"><a href="#"><span class="material-icons">groups</span><span class="link-text">Manage Barangay Admins</span></a></li>
+    <li data-tooltip="Manage Destinations"><a href="manageDestination.html"><span class="material-icons">location_on</span><span class="link-text">Manage Resorts</span></a></li>
+    <li data-tooltip="Manage Activities"><a href="manageActivities.html"><span class="material-icons">event</span><span class="link-text">Manage Activities</span></a></li>
+    <li data-tooltip="Manage News"><a href="manageNews.html"><span class="material-icons">campaign</span><span class="link-text">Announcements</span></a></li>
+    <li data-tooltip="Ratings & Reviews"><a href="#"><span class="material-icons">rate_review</span><span class="link-text">Ratings & Reviews</span></a></li>
+    <li data-tooltip="System Settings"><a href="#"><span class="material-icons">settings</span><span class="link-text">System Settings</span></a></li>
+  </ul>
+  </div>
+
+<div class="main-content" id="mainContent">
+  <div class="header">
+    Welcome back to TourEase
+  </div>
+
+  <div class="content-container">
+       <div class="search-bar-section">
+    <div class="search-bar-container">
+      <input type="text" id="searchInput" placeholder="Search Resorts.." class="search-input">
+      <button class="search-button">
+        <span class="material-icons">search</span>
+      </button>
+    </div>
+    <ul id="searchResults" class="search-results-dropdown">
+      </ul>
+  </div>
+  </div>
+
+<div class="content-container">
+  <button class="addbutton" onclick="openAddModal()">
+    <i class="fas fa-plus"></i> Add Resort
+  </button>
+</div>
+
+    
+    <div id="destinationCards" class="cards-container">
+    </div>
+  </div>
+</div>
+
+  
+  <div class="modal" id="addModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Add New Resort</h2>
+        <button class="close-btn" onclick="closeModal('addModal')">&times;</button>
+      </div>
+      <form id="destinationForm">
+
+        <div class="form-group">
+          <label for="destinationName">Resort Location</label>
+          <input type="text" id="destinationLocation" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+          <label for="destinationName">Resort Name</label>
+          <input type="text" id="destinationName" class="form-control" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="destinationInfo">Resort Information</label>
+          <textarea id="destinationInfo" class="form-control" required></textarea>
+        </div>
+        
+        <div class="form-group">
+          <label for="destinationImage">Resort Image</label>
+          <input type="file" id="destinationImage" class="form-control" accept="image/*" required>
+          <div class="image-preview" id="imagePreview">
+            <span>Image preview will appear here</span>
+          </div>
+        </div>
+        
+        <div class="coordinates-group">
+          <div class="form-group">
+            <label for="latitude">Latitude</label>
+            <input type="number" id="latitude" class="form-control" step="0.000001" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="longitude">Longitude</label>
+            <input type="number" id="longitude" class="form-control" step="0.000001" required>
+          </div>
+        </div>
+        
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('addModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Resort</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  <div class="modal" id="editModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Edit Resort</h2>
+        <button class="close-btn" onclick="closeModal('editModal')">&times;</button>
+      </div>
+      <form id="editForm">
+        <input type="hidden" id="editDestinationId">
+
+        <div class="form-group">
+          <label for="editDestinationLocation">Resort Location</label>
+          <input type="text" id="editDestinationLocation" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+          <label for="editDestinationName">Resort Name</label>
+          <input type="text" id="editDestinationName" class="form-control" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="editDestinationInfo">Resort Information</label>
+          <textarea id="editDestinationInfo" class="form-control" required></textarea>
+        </div>
+        
+        <div class="form-group">
+          <label for="editDestinationImage">Resort Image</label>
+          <input type="file" id="editDestinationImage" class="form-control" accept="image/*">
+          <div class="image-preview" id="editImagePreview">
+            <span>Current image will appear here</span>
+          </div>
+        </div>
+        
+        <div class="coordinates-group">
+          <div class="form-group">
+            <label for="editLatitude">Latitude</label>
+            <input type="number" id="editLatitude" class="form-control" step="0.000001" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="editLongitude">Longitude</label>
+            <input type="number" id="editLongitude" class="form-control" step="0.000001" required>
+          </div>
+        </div>
+        
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('editModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Update Resort</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+<div class="modal" id="addAmenitiesModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 class="modal-title">Add Amenities</h2>
+      <button class="close-btn" onclick="closeModal('addAmenitiesModal')">&times;</button>
+    </div>
+
+    <form id="amenitiesForm">
+      <input type="hidden" id="amenitiesDestinationId">
+
+      <div class="form-group">
+        <label class="form-label">Select Amenities</label>
+        <div id="amenitiesCheckboxes" class="amenities-checkbox-grid">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="customAmenity" class="form-label">Add Custom Amenity</label>
+        <div class="custom-amenity-input-group">
+          <input type="text" id="customAmenity" class="form-control" placeholder="Enter custom amenity">
+          <button type="button" class="btn btn-secondary" onclick="addCustomAmenity()">Add</button>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" onclick="closeModal('addAmenitiesModal')">Cancel</button>
+        <button type="submit" class="btn btn-primary">Save Amenities</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+  <div class="modal" id="successModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Success</h2>
+        <button class="close-btn" onclick="closeModal('successModal')">&times;</button>
+      </div>
+      <div class="modal-body" id="successMessage">
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" onclick="closeModal('successModal')">OK</button>
+      </div>
+    </div>
+  </div>
+
+    
+<div class="modal" id="addActivitiesModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 class="modal-title">Add Activities</h2>
+      <button class="close-btn" onclick="closeModal('addActivitiesModal')">&times;</button>
+    </div>
+
+    <form id="activitiesForm">
+      <input type="hidden" id="activitiesDestinationId">
+
+      <div class="form-group">
+        <label class="form-label">Select Activities</label>
+        <div id="activitiesCheckboxes" class="activities-checkbox-grid">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="customActivity" class="form-label">Add Custom Activity</label>
+        <div class="custom-activity-input-group">
+          <input type="text" id="customActivity" class="form-control" placeholder="Enter custom activity">
+          <button type="button" class="btn btn-secondary" onclick="addCustomActivity()">Add</button>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" onclick="closeModal('addActivitiesModal')">Cancel</button>
+        <button type="submit" class="btn btn-primary">Save Activities</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
+  <div class="modal" id="addImagesModal">
+    <div class="modalimages-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Upload Resort Images</h2>
+        <button class="close-btn" onclick="closeModal('addImagesModal')">&times;</button>
+      </div>
+      <form id="uploadImagesForm" enctype="multipart/form-data">
+        <input type="hidden" id="imageDestinationId" name="destinationId">
+
+        <div class="form-group">
+          <label for="destinationImages">Select 1–3 Images</label>
+          <input type="file" id="destinationImages" name="images[]" accept="image/*" multiple>
+        </div>
+
+        <div id="imagePreviewContainer" style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;"></div>
+
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('addImagesModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Upload</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+
+
+ <script>
+  function escapeHtml(unsafe) {
+      if (typeof unsafe !== 'string') return unsafe;
+      return unsafe
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+  }
+
+  let allDestinationData = []; 
+
+  function openModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) {
+          modal.style.display = 'flex';
+          document.body.style.overflow = 'hidden';
+      } else {
+          console.error('Modal not found:', modalId);
+      }
+  }
+
+  function closeModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) {
+          modal.style.display = 'none';
+          document.body.style.overflow = '';
+      } else {
+          console.error('Modal not found:', modalId);
+      }
+  }
+
+  function showSuccessModal(message) {
+    closeModal('addModal');
+    closeModal('editModal');
+    closeModal('addAmenitiesModal');
+    closeModal('addActivitiesModal');
+    closeModal('addImagesModal');
+
+    document.getElementById('successMessage').innerText = message;
+    openModal('successModal');
+    loadDestinations();
+  }
+
+  window.openAddModal = () => openModal('addModal'); 
+
+  window.openAddAmenitiesModal = (destinationId) => {
+    document.getElementById('amenitiesDestinationId').value = destinationId;
+    openModal('addAmenitiesModal');
+    loadAmenities(destinationId); 
+  };
+
+  window.addCustomAmenity = async () => {
+    const name = document.getElementById('customAmenity').value.trim();
+    if (!name) return;
+
+    const destinationId = document.getElementById('amenitiesDestinationId').value;
+
+    const response = await fetch('add_custom_amenity.php', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({name, destinationId})
+    });
+
+    const result = await response.json();
+    showSuccessModal(result.message);
+    loadAmenities(destinationId);
+  };
+
+  window.openAddActivitiesModal = (destinationId) => {
+    document.getElementById('activitiesDestinationId').value = destinationId;
+    openModal('addActivitiesModal');
+    loadActivities(destinationId); 
+  };
+
+  window.addCustomActivity = async () => {
+    const name = document.getElementById('customActivity').value.trim();
+    if (!name) return;
+
+    const destinationId = document.getElementById('activitiesDestinationId').value;
+
+    const response = await fetch('add_custom_activity.php', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({name, destinationId})
+    });
+
+    const result = await response.json();
+    showSuccessModal(result.message);
+    loadActivities(destinationId);
+  };
+
+  window.openAddImagesModal = function (destinationId) {
+    document.getElementById('imageDestinationId').value = destinationId;
+    document.getElementById('destinationImages').value = '';
+    document.getElementById('imagePreviewContainer').innerHTML = '';
+    openModal('addImagesModal');
+  };
+
+  window.openEditModal = function(destinationId) {
+      document.getElementById('editImagePreview').innerHTML = '<span>Loading...</span>';
+      
+      fetch(`get_destination_forEdit.php?id=${destinationId}`)
+          .then(response => response.json())
+          .then(data => {
+              if (!data.success) {
+                  throw new Error(data.message || 'Failed to load destination');
+              }
+              
+              const dest = data.data;
+        
+
+              document.getElementById('editDestinationId').value = dest.DestinationID;
+              document.getElementById('editDestinationLocation').value = dest.DestinationLocation;
+              document.getElementById('editDestinationName').value = dest.DestinationName;
+              document.getElementById('editDestinationInfo').value = dest.DestinationInfo;
+              document.getElementById('editLatitude').value = dest.DestinationLatitude;
+              document.getElementById('editLongitude').value = dest.DestinationLongitude;
+              
+              const preview = document.getElementById('editImagePreview');
+              if (dest.DestinationImage) {
+                  preview.innerHTML = `<img src="data:image/jpeg;base64,${dest.DestinationImage}" 
+                                        alt="Current Image" style="max-width: 100%; max-height: 200px;">`;
+              } else {
+                  preview.innerHTML = '<span>No image available</span>';
+              }
+              
+              openModal('editModal');
+          })
+          .catch(error => {
+              console.error('Error:', error);
+              alert('Failed to load destination: ' + error.message);
+          });
+  };
+
+  window.deleteDestination = function(destinationId) {
+      if (confirm("Are you sure you want to delete this destination?")) {
+          fetch('delete_destination.php', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ destinationId: destinationId })
+          })
+          .then(response => response.json())
+          .then(data => {
+              if (data.success) {
+                  showSuccessModal(data.message);
+              } else {
+                  alert('Error: ' + data.message);
+              }
+          })
+          .catch(error => {
+              console.error('Error:', error);
+              alert('An error occurred while deleting the destination.');
+          });
+      }
+  };
+
+  function toggleSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    const mainContent = document.querySelector('.main-content');
+    const sidebarToggle = document.querySelector('.toggle-btn');
+
+    sidebar.classList.toggle('minimized');
+    mainContent.classList.toggle('minimized');
+
+    if (sidebar.classList.contains('minimized')) {
+        sidebarToggle.textContent = 'arrow_forward_ios';
+    } else {
+        sidebarToggle.textContent = 'arrow_back_ios';
+    }
+  }
+
+  async function loadAmenities(destinationId) {
+    const container = document.getElementById('amenitiesCheckboxes');
+    container.innerHTML = '';
+
+    try {
+      const response = await fetch(`get_amenities.php?destinationId=${destinationId}`);
+      const text = await response.text();
+
+      if (!text.trim()) throw new Error("Empty response from server");
+
+      const amenities = JSON.parse(text);
+      amenities.sort((a, b) => a.Amenities.localeCompare(b.Amenities));
+
+      amenities.forEach(amenity => {
+        const label = document.createElement('label');
+        label.style.display = 'flex';
+        label.style.alignItems = 'center';
+        label.style.gap = '5px';
+
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.value = amenity.AmenitiesID;
+        if (amenity.checked) checkbox.checked = true;
+
+        label.appendChild(checkbox);
+        label.append(document.createTextNode(amenity.Amenities));
+        container.appendChild(label);
+      });
+    } catch (error) {
+      console.error("Error loading amenities:", error);
+      container.innerHTML = `<p class="error">Error loading amenities: ${escapeHtml(error.message)}</p>`;
+    }
+  }
+
+  async function loadActivities(destinationId) {
+    const container = document.getElementById('activitiesCheckboxes');
+    container.innerHTML = '';
+    try {
+      const response = await fetch(`get_activities.php?destinationId=${destinationId}`);
+      const text = await response.text();
+      if (!text.trim()) throw new Error("Empty response from server");
+
+      const activities = JSON.parse(text);
+
+      activities.forEach(activity => {
+        const label = document.createElement('label');
+        label.style.display = 'flex';
+        label.style.alignItems = 'center';
+        label.style.gap = '5px';
+
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.value = activity.ActivityID;
+        if (activity.checked) checkbox.checked = true;
+
+        label.appendChild(checkbox);
+        label.append(document.createTextNode(activity.ActivityName));
+        container.appendChild(label);
+      });
+    } catch (error) {
+      console.error("Error loading activities:", error);
+      container.innerHTML = `<p class="error">Error loading activities: ${escapeHtml(error.message)}</p>`;
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchInput');
+    const searchResultsContainer = document.getElementById('searchResults');
+    const sidebar = document.getElementById("sidebar");
+    const mainContent = document.getElementById("mainContent");
+    const toggleBtn = document.querySelector(".toggle-btn");
+    const links = document.querySelectorAll(".sidebar ul li a");
+    let lastClickedHref = null;
+
+
+    toggleBtn.addEventListener("click", () => {
+        toggleSidebar();
+    });
+
+    links.forEach(link => {
+        link.addEventListener("click", function (e) {
+            const isMinimized = sidebar.classList.contains("minimized");
+            const href = this.getAttribute("href");
+
+            if (isMinimized) {
+                lastClickedHref = href;
+                toggleSidebar(true);
+                e.preventDefault();
+                setTimeout(() => {
+                    window.location.href = href;
+                }, 200);
+                return;
+            }
+
+            if (lastClickedHref === href) {
+                toggleSidebar(false);
+                lastClickedHref = null;
+                e.preventDefault();
+            } else {
+                lastClickedHref = href;
+                if (window.location.pathname.endsWith(href)) {
+                    toggleSidebar(false);
+                    lastClickedHref = null;
+                    e.preventDefault();
+                }
+            }
+        });
+    });
+
+    function filterDestinationCards(searchTerm) {
+      const lowerCaseSearchTerm = searchTerm.toLowerCase();
+
+      searchResultsContainer.innerHTML = ''; 
+      searchResultsContainer.style.display = 'none';
+
+      allDestinationData.forEach(dest => {
+        const destinationName = dest.name.toLowerCase();
+        const cardElement = dest.cardElement;
+
+        if (destinationName.includes(lowerCaseSearchTerm)) {
+          cardElement.style.display = 'block';
+        } else {
+          cardElement.style.display = 'none';
+        }
+      });
+      
+      if (searchTerm.length === 0) {
+          allDestinationData.forEach(dest => {
+              dest.cardElement.style.display = 'block';
+          });
+      }
+    }
+
+    searchInput.addEventListener('input', function() {
+      filterDestinationCards(this.value);
+    });
+
+    window.addEventListener('click', function(event) {
+        if (event.target.classList.contains('modal')) {
+            event.target.style.display = 'none';
+            document.body.style.overflow = '';
+        }
+    });
+
+    document.getElementById('destinationImage').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      const preview = document.getElementById('imagePreview');
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          preview.innerHTML = `<img src="${event.target.result}" alt="Preview" style="max-width: 100%; max-height: 200px;">`;
+        }
+        reader.readAsDataURL(file);
+      } else {
+          preview.innerHTML = '<span>Image preview will appear here</span>';
+      }
+    });
+
+    document.getElementById('amenitiesForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const destinationId = document.getElementById('amenitiesDestinationId').value;
+      const checkboxes = document.querySelectorAll('#amenitiesCheckboxes input[type="checkbox"]');
+
+      const selectedAmenities = [];
+      checkboxes.forEach(cb => {
+        if (cb.checked) {
+          selectedAmenities.push(cb.value);
+        }
+      });
+
+      const response = await fetch('save_amenities.php', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          destinationId,
+          selectedAmenities
+        })
+      });
+
+      const result = await response.json();
+      showSuccessModal(result.message);
+    });
+
+    document.getElementById('activitiesForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const destinationId = document.getElementById('activitiesDestinationId').value;
+      const checkboxes = document.querySelectorAll('#activitiesCheckboxes input[type="checkbox"]');
+
+      const selectedActivities = [];
+      checkboxes.forEach(cb => {
+        if (cb.checked) {
+          selectedActivities.push(cb.value);
+        }
+      });
+
+      const response = await fetch('save_activities.php', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          destinationId,
+          selectedActivities
+        })
+      });
+
+      const result = await response.json();
+      showSuccessModal(result.message);
+    });
+
+    document.getElementById('destinationForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData();
+        formData.append('destinationLocation', document.getElementById('destinationLocation').value);
+        formData.append('destinationName', document.getElementById('destinationName').value);
+        formData.append('destinationInfo', document.getElementById('destinationInfo').value);
+        formData.append('latitude', document.getElementById('latitude').value);
+        formData.append('longitude', document.getElementById('longitude').value);
+        formData.append('destinationImage', document.getElementById('destinationImage').files[0]);
+
+        fetch('add_destination.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                showSuccessModal(data.message);
+                document.getElementById('destinationForm').reset();
+                document.getElementById('imagePreview').innerHTML = '<span>Image preview will appear here</span>';
+            } else {
+                alert('Error: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while adding the destination');
+        });
+    });
+
+    document.getElementById('editForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const destinationId = document.getElementById('editDestinationId').value;
+        const formData = new FormData();
+        formData.append('destinationId', destinationId);
+        formData.append('destinationName', document.getElementById('editDestinationName').value);
+        formData.append('destinationInfo', document.getElementById('editDestinationInfo').value);
+        formData.append('latitude', document.getElementById('editLatitude').value);
+        formData.append('longitude', document.getElementById('editLongitude').value);
+        
+        const imageInput = document.getElementById('editDestinationImage');
+        if (imageInput.files.length > 0) {
+            formData.append('destinationImage', imageInput.files[0]);
+        }
+        
+        fetch('update_destinations.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                showSuccessModal('Destination updated successfully');
+            } else {
+                alert('Error: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while updating the destination');
+        });
+    });
+
+    document.getElementById('editDestinationImage').addEventListener('change', function(e) {
+        const preview = document.getElementById('editImagePreview');
+        const file = e.target.files[0];
+        
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                preview.innerHTML = `<img src="${e.target.result}" alt="Preview" style="max-width: 100%; max-height: 200px;">`;
+            }
+            reader.readAsDataURL(file);
+        } else {
+             preview.innerHTML = '<span>Current image will appear here</span>';
+        }
+    });
+
+    const fileInput = document.getElementById('destinationImages');
+    const previewContainer = document.getElementById('imagePreviewContainer');
+
+    fileInput.addEventListener('change', () => {
+      previewContainer.innerHTML = '';
+      const files = fileInput.files;
+
+      if (files.length > 3) {
+        alert("You can upload up to 3 images only.");
+        fileInput.value = '';
+        return;
+      }
+
+      Array.from(files).forEach(file => {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const img = document.createElement('img');
+          img.src = e.target.result;
+          img.style.width = '240px';
+          img.style.height = '240px';
+          img.style.objectFit = 'cover';
+          img.style.border = '1px solid #ccc';
+          previewContainer.appendChild(img);
+        };
+        reader.readAsDataURL(file);
+      });
+    });
+
+    document.getElementById('uploadImagesForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const formData = new FormData(this);
+
+      fetch('upload_destination_images.php', {
+        method: 'POST',
+        body: formData
+      })
+        .then(response => response.json())
+        .then(data => {
+          showSuccessModal(data.message);
+          if (data.success) {
+            this.reset();
+            document.getElementById('imagePreviewContainer').innerHTML = '';
+          }
+        })
+        .catch(error => {
+          console.error('Upload error:', error);
+          alert('An error occurred while uploading images.');
+        });
+    });
+
+    document.addEventListener('click', function (e) {
+      document.querySelectorAll('.dropdown-content').forEach(menu => {
+        if (!menu.parentElement.contains(e.target)) {
+          menu.style.display = 'none';
+        }
+      });
+
+      if (e.target.closest('.dropdown .icon-button')) {
+        const dropdown = e.target.closest('.dropdown');
+        const menu = dropdown.querySelector('.dropdown-content');
+        menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+      }
+    });
+
+    window.loadDestinations = function() {
+      const cardContainer = document.getElementById('destinationCards');
+
+      if (!cardContainer) {
+          console.error('Destination cards container not found!');
+          return;
+      }
+
+      cardContainer.innerHTML = '<p class="loading">Loading destinations...</p>';
+      allDestinationData = [];
+
+      fetch('fetch_destinations.php')
+        .then(response => {
+          if (!response.ok) throw new Error('Network response was not ok');
+          return response.json();
+        })
+        .then(data => {
+          if (!data.success) throw new Error(data.error || 'Failed to load destinations');
+
+          cardContainer.innerHTML = '';
+
+          if (data.data.length === 0) {
+            cardContainer.innerHTML = '<p class="text-center">No destinations found</p>';
+            return;
+          }
+
+          data.data.sort((a, b) => {
+            const nameA = a.DestinationName.toLowerCase();
+            const nameB = b.DestinationName.toLowerCase();
+            if (nameA < nameB) return -1;
+            if (nameA > nameB) return 1;
+            return 0;
+          });
+
+          data.data.forEach(dest => {
+            const card = document.createElement('div');
+            card.classList.add('destination-card');
+
+            const imageSrc = dest.DestinationImage
+              ? `data:image/jpeg;base64,${escapeHtml(dest.DestinationImage)}`
+              : 'placeholder.png';
+
+            card.innerHTML = `
+              <div class="card-image">
+                <img src="${imageSrc}" alt="Destination Image" />
+              </div>
+
+              <div class="card-body">
+                <div class="card-title-row">
+                  <h3>${escapeHtml(dest.DestinationName)}</h3>
+                  <div class="card-action-fixed">
+                      <div class="card-buttons">
+                        <button class="icon-button" onclick="openEditModal(${dest.DestinationID})">
+                          <img src="../image/edit-button.png" alt="Edit" title="Edit" />
+                        </button>
+
+                     <div class="dropdown">
+                       <button class="icon-button">
+                         <img src="../image/add-button.png" alt="Add" title="Add" />
+                       </button>
+                       <div class="dropdown-content">
+                         <a href="#" onclick="openAddAmenitiesModal(${dest.DestinationID})">Amenities</a>
+                         <a href="#" onclick="openAddActivitiesModal(${dest.DestinationID})">Activities</a>
+                         <a href="#" onclick="openAddImagesModal(${dest.DestinationID})">Images</a>
+                       </div>
+                     </div>
+
+                     <button class="icon-button" onclick="deleteDestination(${dest.DestinationID})">
+                     <img src="../image/delete.png" alt="Delete" title="Delete" />
+                       </button>
+                   </div>
+                 </div>
+                </div>
+              </div>
+            `;
+
+            cardContainer.appendChild(card);
+
+            allDestinationData.push({
+              id: dest.DestinationID,
+              name: dest.DestinationName,
+              cardElement: card
+            });
+          });
+          filterDestinationCards(searchInput.value);
+        })
+        .catch(error => {
+          console.error('Error loading destinations:', error);
+          cardContainer.innerHTML = `<p class="error">Error: ${escapeHtml(error.message)}</p>`;
+        });
+    }
+
+    loadDestinations();
+
+  });
+</script>
+</body>
+</html>

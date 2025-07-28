@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nasugbu Tourism Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+
+:root {
+  --bg-color: #f3f6fd;
+  --card-bg: #ffffff;
+  --text-color: #333;
+  --accent-color: #34a77f;
+  --header-bg: #70bc61;
+  --shadow-color: rgba(0, 0, 0, 0.05);
+}
+
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+.card {
+  background: var(--card-bg);
+  box-shadow: 0 6px 15px var(--shadow-color);
+}
+
+.header {
+  background-color: var(--header-bg);
+  color: white;
+}
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      display: flex;
+      background-color: #f3f6fd;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Sidebar */
+.sidebar {
+
+  width: 265px;
+  background-color: white;
+  padding: 20px 10px 0 10px;
+  border-right: 1px solid #ddd;
+  transition: width 0.3s ease;
+  position: relative;
+}
+
+.sidebar.minimized {
+  width: 70px;
+
+}
+
+.sidebar ul li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #333;
+  transition: background-color 0.2s ease;
+  position: relative;
+   margin-bottom: 10px;
+}
+
+.sidebar ul li a {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  text-decoration: none;
+  color: inherit;
+}
+
+.sidebar ul li:hover {
+  background-color: #e5f5f0;
+}
+
+.sidebar .material-icons {
+  font-size: 20px;
+  color: #34a77f;
+  min-width: 24px;
+}
+
+.sidebar.minimized .material-icons {
+  margin: 0 auto;
+ 
+}
+
+.link-text {
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  white-space: nowrap;
+  opacity: 1;
+  visibility: visible;
+}
+
+.sidebar.minimized .link-text {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.sidebar.minimized ul li:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: 70px;
+  background: #333;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  white-space: nowrap;
+  font-size: 12px;
+  z-index: 999;
+}
+
+/* Toggle button */
+.toggle-btn {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  width: 30px;
+  height: 30px;
+  background: #aacee5;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 3;
+}
+
+/* Main content margin adjustment */
+.main-content {
+  margin-left: 0px;
+  transition: margin-left 0.3s ease;
+  flex: 1;
+  overflow-y: auto;
+  height: 100vh;
+}
+
+/* Hide the header and TourEase text when sidebar is minimized */
+/* Logo container */
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 20px;
+  padding-left: 10px;
+  transition: all 0.3s ease;
+  margin-top: 30px;
+}
+
+/* Logo image */
+.logo-img {
+  height: 38px;
+  transition: all 0.3s ease;
+}
+
+/* Logo text */
+.logo-text {
+  font-size: 20px;
+  font-weight: 600;
+  color: #34a77f;
+  margin-left: 10px;
+  white-space: nowrap;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* Hide text when minimized */
+.sidebar.minimized .logo-text {
+  opacity: 0;
+  visibility: hidden;
+  width: 0;
+  margin: 0;
+}
+
+/* Center icon when minimized */
+.sidebar.minimized .sidebar-logo {
+  justify-content: center;
+  padding-left: 0;
+}
+
+
+/* Sidebar logo/title */
+.sidebar-title {
+  font-size: 22px;
+  margin-bottom: 20px;
+  text-align: left;
+  transition: opacity 0.3s ease, height 0.3s ease;
+}
+
+/* Hide the full logo title when sidebar is minimized */
+.sidebar.minimized .sidebar-title {
+  opacity: 0;
+  height: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+
+.header {
+  background-color: #12d494;
+  color: #ffffff;
+  padding: 20px;
+  text-align: right;
+  font-size: 16px;
+  transition: opacity 0.3s ease, height 0.3s ease;
+}
+
+/* Hide header when minimized */
+.main-content.minimized .header {
+  opacity: 0;
+  height: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+
+    .banner {
+      position: relative;
+      height: 200px;
+      background-image: url('https://www.shutterstock.com/image-photo/calatagan-batangas-philippines-may-28-600nw-2164488083.jpg'); /* Replace with your own banner image */
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .banner h1 {
+      font-size: 48px;
+      font-weight: 800;
+      color: white;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 10px 20px;
+      border-radius: 10px;
+    }
+
+    .filter-button {
+      float: right;
+      margin: 10px 20px;
+      padding: 10px 20px;
+      background: rgb(196, 249, 255);
+      color:  #4ae4e4;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .filter-button:hover {
+      background: #65d7e6;
+    }
+
+    .dashboard-cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .card {
+  background: white;
+  padding: 20px;
+  border-radius: 16px;
+  flex: 1 1 250px;
+  min-width: 250px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+  border-left: 6px solid #34a77f; /* Accent line */
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card h4 {
+  font-size: 14px;
+  color: #34a77f;
+  margin-bottom: 5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.card h2 {
+  font-size: 36px;
+  color: var(--text-color);
+  text-align: center;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+
+
+.select-group {
+  position: relative;
+  margin-top: 16px;
+}
+
+.select-group select {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background: transparent;
+  color: var(--text-color);
+  appearance: none;
+  font-size: 16px;
+}
+
+.select-group label {
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  background: var(--card-bg);
+  padding: 0 6px;
+  font-size: 14px;
+  color: #888;
+  transition: all 0.2s ease;
+  pointer-events: none;
+}
+
+.select-group select:focus + label,
+.select-group select:not(:placeholder-shown) + label {
+  top: -8px;
+  font-size: 12px;
+  color: var(--accent-color);
+}
+
+.select-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+.select-row .select-group {
+  flex: 1;
+  min-width: 160px;
+}
+
+.dropdown-container {
+  position: relative;
+  display: inline-block;
+}
+.dropdown-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 50%;
+  transition: background 0.2s;
+  outline: none;
+}
+.dropdown-toggle:hover {
+  background: #e5f5f0;
+}
+.dropdown-content {
+  position: absolute;
+  right: 0;
+  top: 38px;
+  background: #fff;
+  min-width: 220px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+  border-radius: 8px;
+  z-index: 10;
+  padding: 12px 16px;
+}
+</style>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+  <button class="toggle-btn material-icons" onclick="toggleSidebar()">menu</button>
+  <div class="sidebar-logo">
+  <img src="../image/logo.png" alt="Logo" class="logo-img" />
+  <span class="logo-text">TourEase</span>
+</div>
+
+  <ul>
+     <li data-tooltip="Dashboard"><a href="municipalAdmin.html"><span class="material-icons">dashboard</span><span class="link-text">Dashboard</span></a></li>
+    <li data-tooltip="Manage Barangay Admins"><a href="#"><span class="material-icons">groups</span><span class="link-text">Manage Barangay Admins</span></a></li>
+    <li data-tooltip="Manage Destinations"><a href="manageDestination.html"><span class="material-icons">location_on</span><span class="link-text">Manage Resorts</span></a></li>
+    <li data-tooltip="Manage Activities"><a href="manageActivities.html"><span class="material-icons">event</span><span class="link-text">Manage Activities</span></a></li>
+    <li data-tooltip="Manage News"><a href="manageNews.html"><span class="material-icons">campaign</span><span class="link-text">Announcements</span></a></li>
+    <li data-tooltip="Ratings & Reviews"><a href="#"><span class="material-icons">rate_review</span><span class="link-text">Ratings & Reviews</span></a></li>
+    <li data-tooltip="System Settings"><a href="#"><span class="material-icons">settings</span><span class="link-text">System Settings</span></a></li>
+  </ul>
+</div>
+
+
+  <!-- Main Content -->
+  <div class="main-content" id="mainContent">
+    <div class="header">
+      Welcome Municipal Admin
+    </div>
+
+
+    <div class="banner">
+      <h1>Discover Calatagan</h1>
+    </div>
+
+
+<div class="dashboard-cards">
+
+  <!-- Total Resorts -->
+  <div class="card">
+    <div class="card-header">
+      <h4>
+        <span class="material-icons" style="vertical-align: middle;">bar_chart</span>
+        Total Number of Resorts
+      </h4>
+      <div class="dropdown-container">
+        <button class="dropdown-toggle" onclick="toggleDropdown(this, 'resortDropdown')">
+          <span class="material-icons">filter_list</span>
+        </button>
+        <div class="dropdown-content" id="resortDropdown" style="display:none;">
+          <div class="select-group" style="margin:0;">
+            <select id="resortFilter" onchange="filterResorts()" required>
+              <option value="" disabled selected hidden></option>
+              <option value="">All Barangays</option>
+            </select>
+            <label for="resortFilter">Filter by Barangay</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <h2 id="totalResorts">...</h2>
+  </div>
+
+  <!-- Fees Collected -->
+  <div class="card">
+    <div class="card-header">
+      <h4>
+        <span class="material-icons" style="vertical-align: middle;">payments</span>
+        Fees Collected
+      </h4>
+      <div class="dropdown-container">
+        <button class="dropdown-toggle" onclick="toggleDropdown(this, 'feesDropdown')">
+          <span class="material-icons">filter_list</span>
+        </button>
+        <div class="dropdown-content" id="feesDropdown" style="display:none;">
+          <div class="select-row" style="margin:0;">
+            <div class="select-group">
+              <select id="feesMonth" onchange="filterFees()" required>
+                <option value="" disabled selected hidden></option>
+                <option value="">All Months</option>
+                <option value="1">Jan</option><option value="2">Feb</option><option value="3">Mar</option>
+                <option value="4">Apr</option><option value="5">May</option><option value="6">Jun</option>
+                <option value="7">Jul</option><option value="8">Aug</option><option value="9">Sep</option>
+                <option value="10">Oct</option><option value="11">Nov</option><option value="12">Dec</option>
+              </select>
+              <label for="feesMonth">Month</label>
+            </div>
+            <div class="select-group">
+              <select id="feesYear" onchange="filterFees()" required>
+                <option value="2023">2023</option>
+                <option value="2024" selected>2024</option>
+                <option value="2025">2025</option>
+              </select>
+              <label for="feesYear">Year</label>
+            </div>
+            <div class="select-group">
+              <select id="feesBarangay" onchange="filterFees()" required>
+                <option value="">All Barangays</option>
+              </select>
+              <label for="feesBarangay">Barangay</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <h2 id="feesCollected">...</h2>
+  </div>
+
+  <!-- Yearly Tourist Arrival -->
+  <div class="card">
+    <div class="card-header">
+      <h4>
+        <span class="material-icons" style="vertical-align: middle;">timeline</span>
+        Tourist Arrival (Yearly)
+      </h4>
+      <div class="dropdown-container">
+        <button class="dropdown-toggle" onclick="toggleDropdown(this, 'touristYearDropdown')">
+          <span class="material-icons">filter_list</span>
+        </button>
+        <div class="dropdown-content" id="touristYearDropdown" style="display:none;">
+          <div class="select-group" style="margin:0;">
+            <select id="touristYear" onchange="filterTouristYearly()" required>
+              <option value="2023">2023</option>
+              <option value="2024" selected>2024</option>
+              <option value="2025">2025</option>
+            </select>
+            <label for="touristYear">Select Year</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <h2 id="touristYearly">...</h2>
+  </div>
+
+  <!-- Local Tourist Arrival -->
+  <div class="card">
+    <div class="card-header">
+      <h4>
+        <span class="material-icons" style="vertical-align: middle;">person</span>
+        Local Tourist Arrival
+      </h4>
+      <div class="dropdown-container">
+        <button class="dropdown-toggle" onclick="toggleDropdown(this, 'localDropdown')">
+          <span class="material-icons">filter_list</span>
+        </button>
+        <div class="dropdown-content" id="localDropdown" style="display:none;">
+          <div class="select-row" style="margin:0;">
+            <div class="select-group">
+              <select id="localMonth" onchange="filterLocalTourists()" required>
+                <option value="" disabled selected hidden></option>
+                <option value="1">Jan</option><option value="2">Feb</option><option value="3">Mar</option>
+                <option value="4">Apr</option><option value="5">May</option><option value="6">Jun</option>
+                <option value="7">Jul</option><option value="8">Aug</option><option value="9">Sep</option>
+                <option value="10">Oct</option><option value="11">Nov</option><option value="12">Dec</option>
+              </select>
+              <label for="localMonth">Month</label>
+            </div>
+            <div class="select-group">
+              <select id="localYear" onchange="filterLocalTourists()" required>
+                <option value="2023">2023</option>
+                <option value="2024" selected>2024</option>
+                <option value="2025">2025</option>
+              </select>
+              <label for="localYear">Year</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <h2 id="touristLocal">...</h2>
+  </div>
+
+  <!-- Foreign Tourist Arrival -->
+  <div class="card">
+    <div class="card-header">
+      <h4>
+        <span class="material-icons" style="vertical-align: middle;">public</span>
+        Foreign Tourist Arrival
+      </h4>
+      <div class="dropdown-container">
+        <button class="dropdown-toggle" onclick="toggleDropdown(this, 'foreignDropdown')">
+          <span class="material-icons">filter_list</span>
+        </button>
+        <div class="dropdown-content" id="foreignDropdown" style="display:none;">
+          <div class="select-row" style="margin:0;">
+            <div class="select-group">
+              <select id="foreignMonth" onchange="filterForeignTourists()" required>
+                <option value="" disabled selected hidden></option>
+                <option value="1">Jan</option><option value="2">Feb</option><option value="3">Mar</option>
+                <option value="4">Apr</option><option value="5">May</option><option value="6">Jun</option>
+                <option value="7">Jul</option><option value="8">Aug</option><option value="9">Sep</option>
+                <option value="10">Oct</option><option value="11">Nov</option><option value="12">Dec</option>
+              </select>
+              <label for="foreignMonth">Month</label>
+            </div>
+            <div class="select-group">
+              <select id="foreignYear" onchange="filterForeignTourists()" required>
+                <option value="2023">2023</option>
+                <option value="2024" selected>2024</option>
+                <option value="2025">2025</option>
+              </select>
+              <label for="foreignYear">Year</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <h2 id="touristForeign">...</h2>
+  </div>
+
+  <!-- Graph -->
+  <div class="card">
+    <div class="card-header">
+      <h4>
+        <span class="material-icons" style="vertical-align: middle;">insert_chart</span>
+        Tourist Graph
+      </h4>
+      <div class="dropdown-container">
+        <button class="dropdown-toggle" onclick="toggleDropdown(this, 'graphDropdown')">
+          <span class="material-icons">filter_list</span>
+        </button>
+        <div class="dropdown-content" id="graphDropdown" style="display:none;">
+          <div class="select-group" style="margin:0;">
+            <select id="graphYear" onchange="filterGraph()" required>
+              <option value="2023">2023</option>
+              <option value="2024" selected>2024</option>
+              <option value="2025">2025</option>
+            </select>
+            <label for="graphYear">Graph Year</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <canvas id="touristChart" height="100"></canvas>
+  </div>
+
+</div>
+
+
+
+
+  <!-- JavaScript -->
+  <script>
+document.addEventListener("DOMContentLoaded", () => {
+  const sidebar = document.getElementById("sidebar");
+  const mainContent = document.getElementById("mainContent");
+  const toggleBtn = document.querySelector(".toggle-btn");
+  const links = document.querySelectorAll(".sidebar ul li a");
+  let lastClickedHref = null;
+
+  // Sidebar toggle with smooth transition
+  function toggleSidebar(forceExpand = null) {
+    const isMinimized = sidebar.classList.contains("minimized");
+    let shouldExpand;
+    if (forceExpand === true) shouldExpand = true;
+    else if (forceExpand === false) shouldExpand = false;
+    else shouldExpand = isMinimized;
+
+    sidebar.classList.toggle("minimized", !shouldExpand);
+    mainContent.classList.toggle("minimized", !shouldExpand);
+    toggleBtn.textContent = shouldExpand ? "menu_open" : "menu";
+  }
+
+  // Toggle sidebar on button click
+  toggleBtn.addEventListener("click", () => {
+    toggleSidebar();
+  });
+
+  // Handle sidebar link clicks for smooth UX
+  links.forEach(link => {
+    link.addEventListener("click", function (e) {
+      const isMinimized = sidebar.classList.contains("minimized");
+      const href = this.getAttribute("href");
+
+      if (isMinimized) {
+        lastClickedHref = href;
+        toggleSidebar(true); // Expand sidebar smoothly
+        e.preventDefault();
+        setTimeout(() => {
+          window.location.href = href;
+        }, 200); // Wait for transition
+        return;
+      }
+
+      // Sidebar is expanded
+      if (lastClickedHref === href) {
+        // Minimize sidebar and prevent navigation
+        toggleSidebar(false);
+        lastClickedHref = null;
+        e.preventDefault();
+      } else {
+        // If clicking a different link, set lastClickedHref and allow navigation
+        lastClickedHref = href;
+        // Prevent navigation and minimize if the link is the current page
+        if (window.location.pathname.endsWith(href)) {
+          toggleSidebar(false);
+          lastClickedHref = null;
+          e.preventDefault();
+        }
+      }
+    });
+  });
+});
+
+function toggleDropdown(btn, dropdownId) {
+  // Hide all other dropdowns
+  document.querySelectorAll('.dropdown-content').forEach(el => {
+    if (el.id !== dropdownId) el.style.display = 'none';
+  });
+  // Toggle this dropdown
+  const dropdown = document.getElementById(dropdownId);
+  dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+  // Close on outside click
+  function handleClickOutside(e) {
+    if (!dropdown.contains(e.target) && !btn.contains(e.target)) {
+      dropdown.style.display = 'none';
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }
+  if (dropdown.style.display === 'block') {
+    setTimeout(() => {
+      document.addEventListener('mousedown', handleClickOutside);
+    }, 0);
+  }
+}
+
+
+    function fetchData(url, elementId) {
+      fetch(url)
+        .then(res => res.text())
+        .then(data => document.getElementById(elementId).innerText = data || '0')
+        .catch(err => document.getElementById(elementId).innerText = 'Error');
+    }
+
+    // Total Resorts
+    function filterResorts() {
+      const location = document.getElementById('resortFilter').value;
+      fetchData(`dashboard_total_resorts.php${location ? '?location=' + encodeURIComponent(location) : ''}`, 'totalResorts');
+    } 
+
+    // Fees Collected (Month + Year)
+    function filterFees() {
+      const month = document.getElementById('feesMonth').value;
+      const year = document.getElementById('feesYear').value;
+      let url = `dashboard_fees_collected.php`;
+      const params = [];
+      if (month) params.push(`month=${month}`);
+      if (year) params.push(`year=${year}`);
+      if (params.length) url += '?' + params.join('&');
+      fetchData(url, 'feesCollected');
+    }
+
+    // Tourist Arrival Yearly
+    function filterTouristYearly() {
+      const year = document.getElementById('touristYear').value;
+      fetchData(`dashboard_tourist_arrival_yearly.php?year=${year}`, 'touristYearly');
+    }
+
+    // Local Tourist
+    function filterLocalTourists() {
+      const month = document.getElementById('localMonth').value;
+      const year = document.getElementById('localYear').value;
+      fetchData(`dashboard_tourist_arrival_local.php?month=${month}&year=${year}`, 'touristLocal');
+    }
+
+    // Foreign Tourist
+    function filterForeignTourists() {
+      const month = document.getElementById('foreignMonth').value;
+      const year = document.getElementById('foreignYear').value;
+      fetchData(`dashboard_tourist_arrival_foreign.php?month=${month}&year=${year}`, 'touristForeign');
+    }
+
+    // Graph
+    function filterGraph() {
+      const year = document.getElementById('graphYear').value;
+      document.getElementById('graphInfo').innerText = `Viewing Line Graph for ${year}`;
+      // You could fetch JSON here and render with Chart.js if needed
+    }
+
+    function populateBarangayFilters() {
+      fetch('get_barangays.php')
+        .then(res => res.json())
+        .then(data => {
+          const feesSelect = document.getElementById('feesBarangay');
+          
+          // Clear existing options first (optional)
+          feesSelect.innerHTML = '';
+          
+          data.forEach(b => {
+            const option = new Option(b.BarangayName, b.BarangayID);
+            feesSelect.add(option);
+          });
+        });
+    }
+
+    function populateLocationFilter() {
+      fetch('get_location.php')
+        .then(res => res.json())
+        .then(data => {
+          const resortSelect = document.getElementById('resortFilter');
+          
+          // Clear existing options
+          resortSelect.innerHTML = '';
+          
+          // Add default option
+          const defaultOption = new Option('All Locations', '');
+          resortSelect.add(defaultOption);
+          
+          // Add location options
+          data.forEach(location => {
+            // Check if the location is an object or just a string
+            const locationValue = location.DestinationLocation || location;
+            const option = new Option(locationValue, locationValue);
+            resortSelect.add(option);
+          });
+        })
+        .catch(error => {
+          console.error('Error loading locations:', error);
+        });
+    }
+
+    function setCurrentMonthYear() {
+      const currentDate = new Date();
+      const currentMonth = currentDate.getMonth() + 1; // 0-based
+      const currentYear = currentDate.getFullYear();
+
+      // Set all month/year dropdowns
+      const monthFields = ['feesMonth', 'localMonth', 'foreignMonth'];
+      const yearFields = ['feesYear', 'localYear', 'foreignYear', 'touristYear', 'graphYear'];
+
+      monthFields.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = currentMonth;
+      });
+
+      yearFields.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = currentYear;
+      });
+    }
+
+
+
+    let chartInstance = null;
+
+    function filterGraph() {
+      const year = document.getElementById('graphYear').value;
+
+      fetch(`dashboard_tourist_arrival_graph.php?year=${year}`)
+        .then(res => res.json())
+        .then(data => {
+          const ctx = document.getElementById('touristChart').getContext('2d');
+
+          if (chartInstance) {
+            chartInstance.destroy(); // clear old chart
+          }
+
+          chartInstance = new Chart(ctx, {
+            type: 'line',
+            data: {
+              labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+              datasets: [{
+                label: `Monthly Tourist Arrivals - ${year}`,
+                data: data, // from PHP
+                backgroundColor: 'rgba(52, 167, 127, 0.2)',
+                borderColor: '#34a77f',
+                borderWidth: 2,
+                fill: true,
+                tension: 0.3,
+                pointRadius: 4
+              }]
+            },
+            options: {
+              responsive: true,
+              scales: {
+                y: {
+                  beginAtZero: true,
+                  ticks: {
+                    precision: 0
+                  }
+                }
+              }
+            }
+          });
+        });
+    }
+
+
+
+
+
+
+    // Initial Load
+    document.addEventListener("DOMContentLoaded", () => {
+      setCurrentMonthYear();
+      populateBarangayFilters();
+      filterResorts();
+      filterFees();
+      filterTouristYearly();
+      filterLocalTourists();
+      filterForeignTourists();
+      filterGraph();
+      populateLocationFilter();
+    });
+
+  </script>
+
+
+
+</body>
+</html>

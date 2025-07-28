@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Manage News | TourEase</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            display: flex;
+            background-color: #f3f6fd;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .sidebar {
+            width: 265px;
+            background-color: white;
+            padding: 20px 10px 0 10px;
+            border-right: 1px solid #ddd;
+            transition: width 0.3s ease;
+            position: relative;
+            margin-bottom: 20px;
+            z-index: 2;
+        }
+
+        .sidebar.minimized {
+            width: 70px;
+        }
+
+        .sidebar ul li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            color: #333;
+            transition: background-color 0.2s ease;
+            position: relative;
+            margin-bottom: 10px;
+        }
+
+        .sidebar ul li a {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .sidebar ul li:hover {
+            background-color: #e5f5f0;
+        }
+
+        .sidebar .material-icons {
+            font-size: 20px;
+            color: #34a77f;
+            min-width: 24px;
+        }
+
+        .sidebar.minimized .material-icons {
+            margin: 0 auto;
+        }
+
+        .link-text {
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            white-space: nowrap;
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .sidebar.minimized .link-text {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .sidebar.minimized ul li:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            left: 70px;
+            background: #333;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            white-space: nowrap;
+            font-size: 12px;
+            z-index: 999;
+        }
+
+        .toggle-btn {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            width: 30px;
+            height: 30px;
+            background: #aacee5;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .main-content {
+            margin-left: 0px;
+            transition: margin-left 0.3s ease;
+            flex: 1;
+            overflow-y: auto;
+            height: 100vh;
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            margin-bottom: 20px;
+            padding-left: 10px;
+            transition: all 0.3s ease;
+            margin-top: 30px;
+        }
+
+        .logo-img {
+            height: 38px;
+            transition: all 0.3s ease;
+        }
+
+        .logo-text {
+            font-size: 20px;
+            font-weight: 600;
+            color: #34a77f;
+            margin-left: 10px;
+            white-space: nowrap;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .sidebar.minimized .logo-text {
+            opacity: 0;
+            visibility: hidden;
+            width: 0;
+            margin: 0;
+        }
+
+        .sidebar.minimized .sidebar-logo {
+            justify-content: center;
+            padding-left: 0;
+        }
+
+        .sidebar-title {
+            font-size: 22px;
+            margin-bottom: 20px;
+            text-align: left;
+            transition: opacity 0.3s ease, height 0.3s ease;
+        }
+
+        .sidebar.minimized .sidebar-title {
+            opacity: 0;
+            height: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .header {
+            background-color: #12d494;
+            color: #fff;
+            padding: 20px;
+            text-align: right;
+            font-size: 16px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .main-content.minimized .header {
+            opacity: 0;
+            height: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .add-news-btn {
+           display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: #1dd3b0;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 30px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+            margin-left: 20px;
+        }
+        .add-news-btn:hover {
+            background: #2d8f6b;
+    transform: translateY(-2px);
+        }
+        .add-news-btn .material-icons {
+            font-size: 20px;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 700px;
+            position: relative;
+            transform: translateY(-20px);
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+            pointer-events: none;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content .close-button {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #888;
+            transition: color 0.2s ease;
+        }
+        .modal-content .close-button:hover {
+            color: #333;
+        }
+
+        .modal-content h2 {
+            margin-top: 0;
+            margin-bottom: 25px;
+            color: #333;
+            font-size: 24px;
+            text-align: center;
+        }
+
+        .modal-content form label {
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 8px;
+            display: block;
+            margin-top: 15px;
+        }
+        .modal-content form label:first-of-type {
+            margin-top: 0;
+        }
+
+        .modal-content form input[type="text"],
+        .modal-content form textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 0;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .modal-content form input[type="text"]:focus,
+        .modal-content form textarea:focus {
+            border-color: #34a77f;
+            box-shadow: 0 0 0 3px rgba(52, 167, 127, 0.2);
+            outline: none;
+        }
+
+        .modal-content form textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .modal-content .image-upload-area {
+            border: 2px dashed #e0e0e0;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            background-color: #fcfcfc;
+            position: relative;
+            margin-top: 15px;
+        }
+
+        .modal-content .image-upload-area input[type="file"] {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .modal-content .image-upload-area label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: #34a77f;
+            cursor: pointer;
+            padding: 0;
+            margin: 0;
+        }
+        .modal-content .image-upload-area label .material-icons {
+            margin-right: 8px;
+            font-size: 24px;
+        }
+
+        .modal-content .image-preview-wrapper {
+            position: relative;
+            width: fit-content;
+            margin: 15px auto 0 auto;
+            display: none;
+        }
+
+        .modal-content #imagePreview {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            border: 1px solid #eee;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .modal-content .clear-image-btn {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 16px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: background-color 0.2s ease;
+        }
+        .modal-content .clear-image-btn:hover {
+            background-color: #cc0000;
+        }
+
+        .modal-content form button[type="submit"] {
+            background: #34a77f;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: 25px;
+            transition: background 0.2s ease, transform 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .modal-content form button[type="submit"]:hover {
+            background: #2c8d6e;
+            transform: translateY(-2px);
+        }
+      
+.dashboard-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 25px;
+    padding: 30px;
+    max-width: 1200px; 
+    margin: 20px auto;
+}
+
+
+.news-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    min-height: 300px;
+}
+
+.news-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+}
+
+.news-card-image {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+
+.news-card-content {
+    padding: 15px 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.news-card-content .news-card-title {
+    font-size: 1.4em;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #2c3e50;
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.news-card-headline {
+    font-size: 0.95em;
+    color: #555;
+    margin-bottom: 8px;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-box-orient: horizontal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.news-body-text {
+    font-size: 0.85em;
+    color: #777;
+    line-height: 1.5;
+    margin-bottom: 15px;
+    flex-grow: 1;
+    display: -webkit-box;
+
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.news-card-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85em;
+    color: #999;
+    padding-top: 12px;
+    border-top: 1px solid #f0f0f0;
+    margin-top: auto;
+}
+
+.news-card-meta .news-card-date {
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: black
+}
+
+.news-card-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.news-card-actions .action-icon {
+    cursor: pointer;
+    font-size: 1.4em;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.news-card-actions .edit-icon {
+    color: #28a745;
+}
+.news-card-actions .add-icon {
+    color: #007bff;
+}
+.news-card-actions .delete-icon {
+    color: #dc3545;
+}
+
+.news-card-actions .action-icon:hover {
+    transform: translateY(-2px);
+    filter: brightness(0.9);
+}
+
+@media (max-width: 768px) {
+    .dashboard-cards {
+        padding: 15px;
+        gap: 15px;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+
+    .news-card {
+        min-height: 300px;
+    }
+
+    .news-card-image {
+        height: 150px;
+    }
+
+    .news-card-content {
+        padding: 10px 15px;
+    }
+
+    .news-card-content .news-card-title {
+        font-size: 1.2em;
+    }
+
+    .news-card-headline,
+    .news-body-text,
+    .news-card-meta {
+        font-size: 0.8em;
+    }
+
+    .news-card-actions .action-icon {
+        font-size: 1.2em;
+    }
+}
+
+        .success-message {
+            background: #dff0d8;
+            color: #3c763d;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: none; /* starts hidden */
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            transition: opacity 0.3s ease;
+        }
+
+        .success-message.show {
+            display: flex; /* shows when needed */
+        }
+
+        .success-message .material-icons {
+            color: #3c763d;
+            font-size: 20px;
+        }
+
+        @media (max-width: 1200px) {
+            .dashboard-cards {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+        }
+        @media (max-width: 992px) {
+            .dashboard-cards {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+        }
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 70px;
+            }
+            .sidebar.minimized {
+                width: 70px;
+            }
+            .sidebar .link-text, .sidebar .logo-text {
+                opacity: 0;
+                visibility: hidden;
+            }
+            .sidebar .sidebar-logo, .sidebar.minimized .sidebar-logo {
+                justify-content: center;
+                padding-left: 0;
+            }
+            .sidebar ul li:hover::after {
+                left: 70px;
+            }
+            .main-content {
+                margin-left: 0;
+            }
+            .dashboard-cards {
+                grid-template-columns: 1fr;
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+            .modal-content {
+                width: 95%;
+                padding: 20px;
+            }
+            .header {
+                font-size: 14px;
+                padding: 15px;
+                flex-direction: column;
+                align-items: flex-end;
+            }
+            .header h1 {
+                margin-bottom: 10px;
+            }
+            .add-news-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar" id="sidebar">
+        <button class="toggle-btn material-icons" onclick="toggleSidebar()">menu</button>
+        <div class="sidebar-logo">
+            <img src="../image/logo.png" alt="Logo" class="logo-img" />
+            <span class="logo-text">TourEase</span>
+        </div>
+
+        <ul>
+            <li data-tooltip="Dashboard"><a href="municipalAdmin.html"><span class="material-icons">dashboard</span><span class="link-text">Dashboard</span></a></li>
+            <li data-tooltip="Manage Barangay Admins"><a href="#"><span class="material-icons">groups</span><span class="link-text">Manage Barangay Admins</span></a></li>
+            <li data-tooltip="Manage Destinations"><a href="manageDestination.html"><span class="material-icons">location_on</span><span class="link-text">Manage Resorts</span></a></li>
+            <li data-tooltip="Manage Activities"><a href="manageActivities.html"><span class="material-icons">event</span><span class="link-text">Manage Activities</span></a></li>
+            <li data-tooltip="Manage News"><a href="manageNews.html"><span class="material-icons">campaign</span><span class="link-text">Announcements</span></a></li>
+            <li data-tooltip="Ratings & Reviews"><a href="#"><span class="material-icons">rate_review</span><span class="link-text">Ratings & Reviews</span></a></li>
+            <li data-tooltip="System Settings"><a href="#"><span class="material-icons">settings</span><span class="link-text">System Settings</span></a></li>
+        </ul>
+    </div>
+
+    <div class="main-content" id="mainContent">
+        <div class="header">
+            <span>📰 Manage News</span>
+
+        </div>
+
+        <button class="add-news-btn" id="openNewsModal">
+                <span class="material-icons">add</span>
+                Add News
+            </button>
+
+        <div class="dashboard-cards" id="newsCards">
+            <div class="news-card">
+                <img src="https://via.placeholder.com/600x400?text=News+Image+1" alt="News Image" class="news-card-image">
+                </div>
+          </div>
+
+    <div id="newsModal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="close-button material-icons" id="closeNewsModal">close</button>
+            <h2>Post News</h2>
+            <div class="success-message" id="successMessageModal">
+                <!-- Content will be added dynamically -->
+            </div>
+            <form id="newsForm">
+             <input type="hidden" id="NewsID" name="NewsID" />
+
+                <label for="NewsTitle">Title:</label>
+                <input type="text" id="NewsTitle" name="NewsTitle" required />
+
+                <label for="NewsHeadline">Headline:</label>
+                <input type="text" id="NewsHeadline" name="NewsHeadline" required />
+
+                <label for="NewsBody">Body:</label>
+                <textarea id="NewsBody" name="NewsBody" rows="5" required></textarea>
+
+                <label>Image:</label>
+                <div class="image-upload-area">
+                    <input type="file" name="NewsImage" id="NewsImage" accept="image/*" />
+                    <label for="NewsImage">
+                        <span class="material-icons">cloud_upload</span>
+                        Choose File or Drag Here
+                    </label>
+                </div>
+                <div class="image-preview-wrapper" id="imagePreviewWrapper">
+                    <img id="imagePreview" src="#" alt="Image Preview" />
+                    <button type="button" class="clear-image-btn" id="clearImageBtn">&times;</button>
+                </div>
+
+                <button type="submit">
+                    <span class="material-icons">send</span>
+                    Post
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+    const sidebar = document.getElementById("sidebar");
+    const mainContent = document.getElementById("mainContent");
+    const toggleBtn = document.querySelector(".toggle-btn");
+    const links = document.querySelectorAll(".sidebar ul li a");
+    let lastClickedHref = null;
+
+    const newsModal = document.getElementById("newsModal");
+     const openNewsModalBtn = document.getElementById("openNewsModal");
+    const closeNewsModalBtn = document.getElementById("closeNewsModal");
+    const successMessageModal = document.getElementById("successMessageModal"); 
+
+    function toggleSidebar(forceExpand = null) {
+        const isMinimized = sidebar.classList.contains("minimized");
+        let shouldExpand;
+        if (forceExpand === true) shouldExpand = true;
+        else if (forceExpand === false) shouldExpand = false;
+        else shouldExpand = isMinimized;
+
+        sidebar.classList.toggle("minimized", !shouldExpand);
+        mainContent.classList.toggle("minimized", !shouldExpand);
+        toggleBtn.textContent = shouldExpand ? "menu_open" : "menu";
+    }
+
+    toggleBtn.addEventListener("click", () => {
+        toggleSidebar();
+    });
+
+    links.forEach(link => {
+        link.addEventListener("click", function (e) {
+            const isMinimized = sidebar.classList.contains("minimized");
+            const href = this.getAttribute("href");
+
+            if (isMinimized) {
+                lastClickedHref = href;
+                toggleSidebar(true);
+                e.preventDefault();
+                setTimeout(() => {
+                    window.location.href = href;
+                }, 200);
+                return;
+            }
+
+            if (lastClickedHref === href) {
+                toggleSidebar(false);
+                lastClickedHref = null;
+                e.preventDefault();
+            } else {
+                lastClickedHref = href;
+                if (window.location.pathname.endsWith(href)) {
+                    toggleSidebar(false);
+                    lastClickedHref = null;
+                    e.preventDefault();
+                }
+            }
+        });
+    });
+
+    const newsImageInput = document.getElementById("NewsImage");
+    const imagePreview = document.getElementById("imagePreview");
+    const imagePreviewWrapper = document.getElementById("imagePreviewWrapper");
+    const clearImageBtn = document.getElementById("clearImageBtn");
+
+    function setupImagePreview(inputId, previewImgId, previewWrapperId, clearBtnId) {
+        const input = document.getElementById(inputId);
+        const preview = document.getElementById(previewImgId);
+        const wrapper = document.getElementById(previewWrapperId);
+        const clearBtn = document.getElementById(clearBtnId);
+
+        input.addEventListener("change", function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    preview.src = e.target.result;
+                    wrapper.style.display = "block";
+                };
+                reader.readAsDataURL(file);
+            } else {
+                wrapper.style.display = "none";
+                preview.src = "#";
+            }
+        });
+
+        clearBtn.addEventListener("click", function () {
+            input.value = "";
+            wrapper.style.display = "none";
+            preview.src = "#";
+        });
+    }
+
+    function truncateText(selector, maxLength) {
+        document.querySelectorAll(selector).forEach(element => {
+            const originalText = element.textContent;
+            if (originalText.length > maxLength) {
+                element.textContent = originalText.substring(0, maxLength) + '...';
+            }
+        });
+    }
+
+    window.onload = function () {
+        loadNews();
+        setupImagePreview("NewsImage", "imagePreview", "imagePreviewWrapper", "clearImageBtn");
+    };
+
+    function openModal() {
+        newsModal.classList.add("active");
+    }
+
+    function closeModal() {
+        newsModal.classList.remove("active");
+        document.getElementById("newsForm").reset();
+        document.getElementById("imagePreviewWrapper").style.display = "none";
+        document.getElementById("imagePreview").src = "#";
+        successMessageModal.style.display = "none";
+    }
+
+    openNewsModalBtn.addEventListener("click", openModal);
+    closeNewsModalBtn.addEventListener("click", closeModal);
+    newsModal.addEventListener("click", (e) => {
+        if (e.target === newsModal) {
+            closeModal();
+        }
+    });
+
+    document.getElementById("newsForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const form = document.getElementById("newsForm");
+        const formData = new FormData(form);
+        const newsId = document.getElementById("NewsID").value;
+        const isEdit = !!newsId;
+        const successMessage = document.getElementById("successMessageModal");
+
+        fetch("add_news.php", {
+            method: "POST",
+            body: formData,
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(result => {
+            if (result.success) {
+                // Update success message text
+                successMessage.innerHTML = `
+                    <span class="material-icons">check_circle</span>
+                    ${result.message}
+                `;
+                
+                // Show success message
+                successMessage.style.display = "flex";
+                
+                // Reload news list
+                loadNews();
+
+                // Close modal after 2 seconds
+                setTimeout(() => {
+                    closeModal();
+                }, 2000);
+            } else {
+                alert("Error: " + result.message);
+            }
+        })
+        .catch(error => {
+            alert("Operation failed. " + error.message);
+            console.error("Error:", error);
+        });
+    });
+});
+
+function loadNews() {
+    fetch("fetch_news.php")
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Failed to fetch news");
+            }
+            return response.text();
+        })
+        .then(data => {
+            document.getElementById("newsCards").innerHTML = data;
+        })
+        .catch(error => {
+            console.error("Error loading news:", error);
+        });
+}
+
+function openModal() {
+    document.getElementById("newsModal").classList.add("active");
+}
+
+function editNews(id) {
+    fetch(`get_news_by_id.php?id=${id}`)
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                const news = data.news;
+
+                document.getElementById("NewsID").value = news.NewsID;
+                document.getElementById("NewsTitle").value = news.NewsTitle;
+                document.getElementById("NewsHeadline").value = news.NewsHeadline;
+                document.getElementById("NewsBody").value = news.NewsBody;
+
+                // Show existing image
+                if (news.NewsImage) {
+                    const imagePreview = document.getElementById("imagePreview");
+                    imagePreview.src = `data:image/jpeg;base64,${news.NewsImage}`;
+                    document.getElementById("imagePreviewWrapper").style.display = "block";
+                }
+
+                // Change modal title for edit
+                document.querySelector(".modal-content h2").textContent = "Edit News";
+                
+                openModal();
+            } else {
+                alert("Failed to fetch news details: " + data.message);
+            }
+        })
+        .catch(error => {
+            console.error("Fetch error:", error);
+            alert("Something went wrong while fetching news details.");
+        });
+}
+
+function deleteNews(id) {
+    if (confirm("Are you sure you want to delete this news item?")) {
+        fetch("delete_news.php", {
+            method: "POST",
+            body: new URLSearchParams({ id })
+        })
+        .then(res => res.text())
+        .then(data => {
+            if (data.trim() === "success") {
+                alert("News deleted successfully.");
+                loadNews(); // Reload news cards
+            } else {
+                alert("Failed to delete news.");
+            }
+        })
+        .catch(error => {
+            console.error("Delete error:", error);
+            alert("An error occurred while deleting the news.");
+        });
+    }
+}
+
+function closeModal() {
+    document.getElementById("newsModal").classList.remove("active");
+    document.getElementById("newsForm").reset();
+    document.getElementById("imagePreviewWrapper").style.display = "none";
+    document.getElementById("imagePreview").src = "#";
+    document.getElementById("NewsID").value = "";
+    document.querySelector(".modal-content h2").textContent = "Post News";
+    document.getElementById("successMessageModal").style.display = "none";
+}
+
+
+    </script>
+
+</body>
+</html>

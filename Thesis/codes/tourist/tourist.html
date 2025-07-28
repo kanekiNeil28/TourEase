@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TourEase - Explore the World</title>
+    <link rel="stylesheet" href="touriststyle.css">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+        crossorigin=""/>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+                integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+                crossorigin="">
+    </script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
+</head>
+<body>
+
+<nav>
+    <div class="nav-container">
+        <div class="nav-left-section">
+            <div class="nav-logo">
+                <a href="#hero">
+                    <img src="../image/logo.png" alt="Logo">
+                    <span>TourEase</span> </a>
+            </div>
+            <div class="logo-right-text">
+                <p>"Your Smart Travel Buddy in Calatagan"</p>
+            </div>
+        </div>
+
+        <div class="nav-center-links">
+            <ul>
+                <li><a href="#destinations">Destinations</a></li>
+                <li><a href="#things-to-do">Things to Do</a></li>
+                <li><a href="#news">News</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<header class="hero-section" id="hero">
+    <div class="hero-background-carousel">
+        <img src="../image/bg.jpeg" alt="Welcome to Calatagan" class="active">
+        <img src="../image/bgg.jpg" alt="Find Place to Stay in Calatagan">
+        <img src="../image/bgtourist.jpg" alt="Explore Calatagan">
+    </div>
+
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content">
+        <h1>Welcome to Calatagan!</h1>
+        <p>Your journey to pristine beaches, vibrant culture, and unforgettable adventures begins here. Explore the best of Calatagan with us!</p>
+        
+    </div>
+
+    <div class="hero-nav-circles">
+        <div class="circle-nav-item active" data-index="0" data-message="Pristine Beaches">
+            <img src="../image/bg.jpeg" alt="Thumbnail of Beach">
+        </div>
+        <div class="circle-nav-item" data-index="1" data-message="Vibrant Culture">
+            <img src="../image/bgg.jpg" alt="Thumbnail of Culture">
+        </div>
+        <div class="circle-nav-item" data-index="2" data-message="Unforgettable Adventures">
+            <img src="../image/bgtourist.jpg" alt="Thumbnail of Adventure">
+        </div>
+    </div>
+</header>
+
+<section class="cards-section" id="destinations">
+    <div class="section-header">
+        <h2 class="section-title">Recommended Resorts</h2>
+
+        <div class="search-bar-container">
+            <input type="text" id="searchInput" placeholder="Search resorts...">
+            <button id="searchButton">Search</button>
+
+            <button id="filterButton">Filter by amenities</button>
+        </div>
+
+        
+
+        
+        <button id="seeAllBtn" class="see-all-btn">See All</button>
+
+
+
+    </div>
+    <div class="cards-container" id="destinationCards"></div>
+</section>
+
+
+<section class="cards-section" id="things-to-do">
+    <div class="section-header">
+        <h2 class="section-title">Things to Do</h2>
+        <button id="seeAllActivitiesBtn" class="see-all-btn">See All</button>
+    </div>
+    <div class="cards-container" id="activitiesCards"></div>
+</section>
+
+<section class="cards-section" id="news">
+    <div class="section-header">
+     <h2 class="section-title">Latest News</h2>
+     <button id="seeAllNewsBtn" class="see-all-btn">See All</button>
+     </div>
+    <div class="cards-container" id="newsCards"></div>
+
+</section>
+
+<footer>
+    <div class="footer-content">
+        <p>&copy; 2023 Paradise Travel. All rights reserved.</p>
+        <p>Contact us: info@paradisetravel.com | +1 (555) 123-4567</p>
+    </div>
+</footer>
+
+<div id="exploreModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <div id="modalContent"></div>
+    </div>
+</div>
+
+<div id="activityModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <div id="activityModalContent"></div>
+    </div>
+</div>
+
+<div id="newsModal" class="modal">
+    <div class="modalnews-content">
+        <span class="close-modal">&times;</span>
+        <div id="newsModalBody" class="modalnews-body">
+        </div>
+    </div>
+</div>
+
+
+<div id="amenitiesFilterModal" class="floating-filter-modal">
+    <div class="filter-modal-header">
+        <h3>Filter by Amenities</h3>
+        <span class="close-filter-modal">&times;</span>
+    </div>
+    <div class="filter-modal-body">
+        <div id="amenitiesCheckboxes" class="amenities-checkboxes">
+            <!-- Amenities will be loaded here -->
+        </div>
+        <div class="filter-modal-footer">
+            <button id="applyAmenitiesFilter" class="apply-filter-btn">Apply Filters</button>
+            <button id="clearAmenitiesFilter" class="clear-filter-btn">Clear All</button>
+        </div>
+    </div>
+</div>
+
+
+
+</body>
+<script src="touristscript.js"></script>
+</html>

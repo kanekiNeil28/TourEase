@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nasugbu Tourism Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet"/>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      display: flex;
+      background-color: #f3f6fd;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 240px;
+      background-color: #fff;
+      height: 100vh;
+      border-right: 1px solid #ddd;
+      padding: 20px;
+      overflow-y: auto;
+      transition: width 0.3s ease;
+      z-index: 2;
+      position: fixed;
+    }
+
+    .sidebar.minimized {
+      width: 70px;
+    }
+
+    .sidebar h2 {
+      font-size: 22px;
+      margin-bottom: 20px;
+      color: #34a77f;
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar.minimized h2 {
+      opacity: 0;
+    }
+
+    .sidebar ul {
+      list-style: none;
+    }
+
+    .sidebar ul li {
+      padding: 12px 10px;
+      cursor: pointer;
+      color: #333;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .sidebar ul li a {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      
+    }
+
+    .sidebar ul li:hover {
+      background-color: #e5f5f0;
+      border-radius: 8px;
+    }
+
+    .toggle-btn {
+      position: absolute;
+      top: 20px;
+      right: 10px;
+      width: 30px;
+      height: 30px;
+      background: #34a77f;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      z-index: 3;
+    }
+
+    /* Main content */
+    .main-content {
+      margin-left: 240px;
+      flex: 1;
+      transition: margin-left 0.3s ease;
+      overflow-y: auto;
+      height: 100vh;
+    }
+
+    .main-content.minimized {
+      margin-left: 70px;
+    }
+
+    .header {
+      background-color: #70bc61;
+      color: #fff;
+      padding: 20px;
+      text-align: right;
+      font-size: 16px;
+    }
+
+    .banner {
+      position: relative;
+      height: 200px;
+      background-image: url('https://www.shutterstock.com/image-photo/calatagan-batangas-philippines-may-28-600nw-2164488083.jpg'); /* Replace with your own banner image */
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .banner h1 {
+      font-size: 48px;
+      font-weight: 800;
+      color: white;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 10px 20px;
+      border-radius: 10px;
+    }
+
+    .filter-button {
+      float: right;
+      margin: 10px 20px;
+      padding: 10px 20px;
+      background: rgb(196, 249, 255);
+      color: #00a8ff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .filter-button:hover {
+      background: #007bb6;
+    }
+
+    .dashboard-cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .card {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      flex: 1 1 200px;
+      min-width: 200px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .card h4 {
+      font-size: 14px;
+      color: #777;
+    }
+
+    .card h2 {
+      font-size: 28px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <button class="toggle-btn" onclick="toggleSidebar()"> - </button>
+    <h2>🌴 TourEase</h2>
+    <ul>
+        <li><a href="#">Dashboard</a></li>
+        <li><a href="manageEcoPolice.html">Manage Eco Police</a></li>
+        <li>Ratings and Reviews</li>
+        <li>System Settings</li>
+        <!--<li><a href="">Request Destinations</a></li>
+        <li><a href="">Request Activities</a></li>
+        <li>Request News</li>-->   
+    </ul>
+  </div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <div class="header">
+            Welcome back to TourEase   
+        </div>
+
+        <div style="padding: 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <input type="text" id="searchInput" placeholder="Search Eco Police..." style="padding: 10px; width: 250px; border: 1px solid #ccc; border-radius: 8px;">
+            <button onclick="addEcoPolice()" style="padding: 10px 20px; background: #34a77f; color: white; border: none; border-radius: 8px; cursor: pointer;">
+                + Add Eco Police
+            </button>
+            </div>
+
+            <table style="width: 100%; border-collapse: collapse; background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+            <thead style="background-color: #34a77f; color: white;">
+                <tr>
+                
+                <th style="padding: 12px;">Name</th>
+                <th style="padding: 12px;">Email</th>
+                <th style="padding: 12px;">UserName</th>
+                <th style="padding: 12px;">Actions</th>
+                </tr>
+            </thead>
+            <tbody id="ecoPoliceTable">
+                <tr>
+                <td style="padding: 12px; text-align: center;">Juan Dela Cruz</td>
+                <td style="padding: 12px; text-align: center">Juan@gmail.com</td>
+                <td style="padding: 12px; text-align: center">Juan</td>
+                <td style="padding: 12px; text-align: center;">
+                    <button style="padding: 6px 12px; margin-right: 5px; background: #ffc107; border: none; border-radius: 5px; cursor: pointer;">Edit</button>
+                    <button style="padding: 6px 12px; background: #dc3545; color: white; border: none; border-radius: 5px; cursor: pointer;">Delete</button>
+                </td>
+                </tr>
+                <!-- Add more rows as needed -->
+            </tbody>
+            </table>
+        </div>
+    </div>
+
+
+  <!-- JavaScript -->
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById("sidebar");
+      const mainContent = document.getElementById("mainContent");
+      sidebar.classList.toggle("minimized");
+      mainContent.classList.toggle("minimized");
+    }
+  </script>
+
+</body>
+</html>

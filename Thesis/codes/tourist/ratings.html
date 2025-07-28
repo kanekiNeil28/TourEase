@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rate the Place</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f7f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .card {
+      background-color: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      text-align: center;
+      width: 300px;
+    }
+    .stars {
+      display: flex;
+      justify-content: center;
+      margin: 20px 0;
+    }
+    .star {
+      font-size: 30px;
+      cursor: pointer;
+      color: #ccc;
+      transition: color 0.2s;
+    }
+    .star.selected {
+      color: gold;
+    }
+    button {
+      background-color: #2f7e2f;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background-color: #256b25;
+    }
+    .message {
+      margin-top: 15px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Rate Your Experience</h2>
+    <p id="guestNameLabel">Hello, <strong>Guest</strong></p>
+    
+    <div class="stars" id="starContainer"></div>
+
+    <button onclick="submitRating()">Submit Rating</button>
+    <div class="message" id="message"></div>
+  </div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const guestName = urlParams.get('name') || 'Guest';
+    const destinationId = urlParams.get('destinationId');
+
+    document.getElementById('guestNameLabel').innerHTML = `Hello, <strong>${guestName}</strong>`;
+
+    const starContainer = document.getElementById('starContainer');
+    let selectedRating = 0;
+
+    for (let i = 1; i <= 5; i++) {
+      const star = document.createElement('span');
+      star.innerHTML = '★';
+      star.classList.add('star');
+      star.dataset.value = i;
+      star.onclick = function () {
+        selectedRating = i;
+        updateStars();
+      };
+      starContainer.appendChild(star);
+    }
+
+    function updateStars() {
+      document.querySelectorAll('.star').forEach(star => {
+        const val = parseInt(star.dataset.value);
+        star.classList.toggle('selected', val <= selectedRating);
+      });
+    }
+
+    function submitRating() {
+      if (!selectedRating || !destinationId) {
+        document.getElementById('message').textContent = 'Missing rating or destination.';
+        return;
+      }
+
+      fetch('insert_rating.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: guestName,
+          rating: selectedRating,
+          destinationId: parseInt(destinationId)
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.status === 'success') {
+          document.getElementById('message').textContent = 'Thank you for your feedback!';
+        } else {
+          document.getElementById('message').textContent = 'Submission failed: ' + data.message;
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        document.getElementById('message').textContent = 'Error submitting rating.';
+      });
+    }
+  </script>
+</body>
+</html>
